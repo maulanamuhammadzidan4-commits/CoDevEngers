@@ -1,0 +1,10 @@
+# Copy this file to local.properties (already gitignored in repository root .gitignore).
+# Do NOT commit local.properties or store service_role / secret keys here.
+
+# Path to local Android SDK (managed automatically by Android Studio)
+# sdk.dir=C\:\\Users\\YourUser\\AppData\\Local\\Android\\Sdk
+
+# Future Supabase client configuration (anon/publishable key only; NEVER service_role)
+USE_DUMMY_DATA=true
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
