@@ -2,6 +2,10 @@ package com.codevenger.app.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val CoDevEngerNavy = Color(0xFF0A1128)
+val CoDevEngerRed = Color(0xFFC81D25)
+val CoDevEngerSkyBlue = Color(0xFF7DB8FF)
+
 // Monochrome grayscale palette extracted directly from Project CoDevengers.penpot
 val PenpotWhite = Color(0xFFFFFFFF)
 val PenpotLightCanvas = Color(0xFFC7C8CC)

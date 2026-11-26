@@ -8,10 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.codevenger.app.core.di.AppContainer
 import com.codevenger.app.ui.screens.FoundationPlaceholderScreen
+import com.codevenger.app.ui.screens.LandingScreen
 
 /**
- * Phase 1 navigation host.
- * Establishes the Splash start route and registers future destination placeholders.
+ * Hosts the public landing page and the existing future destination placeholders.
  */
 @Composable
 fun CoDevEngerNavHost(
@@ -21,7 +21,7 @@ fun CoDevEngerNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppDestination.Splash,
+        startDestination = AppDestination.Landing,
         modifier = modifier,
     ) {
         composable<AppDestination.Splash> {
@@ -30,9 +30,7 @@ fun CoDevEngerNavHost(
             )
         }
         composable<AppDestination.Landing> {
-            FoundationPlaceholderScreen(
-                foundationRepository = appContainer.foundationRepository,
-            )
+            LandingScreen()
         }
         composable<AppDestination.Login> {
             FoundationPlaceholderScreen(
