@@ -17,6 +17,15 @@
     .mi[aria-current=page]{@apply bg-brand text-white}
     th{@apply px-3 py-2 text-left text-xs font-semibold text-mute}
     td{@apply px-3 py-2.5 text-sm}
+    .search-box .search-input {
+  padding-left: 44px !important;
+  padding-right: 12px;
+}
+
+.search-box .search-icon {
+  left: 12px;
+  pointer-events: none;
+}
   </style>
   <link rel="stylesheet" href="assets/css/theme.css">
 </head>
@@ -31,9 +40,17 @@
   <div class="lg:pl-72">
     <header class="sticky top-0 z-20 flex items-center gap-2 border-b border-line bg-panel/95 px-3 py-3 backdrop-blur sm:gap-3 sm:px-6">
       <button class="bg2 !px-3 lg:hidden" data-act="menu-open" aria-label="Buka menu"><i data-lucide="menu"></i></button>
-      <label class="relative min-w-0 flex-1"><span class="sr-only">Pencarian</span>
-        <i data-lucide="search" class="pointer-events-none absolute left-3 top-3 h-5 w-5 text-mute"></i>
-        <input id="q" type="search" placeholder="Pencarian..." class="inp !rounded-full pl-10"></label>
+  <label class="search-box relative min-w-0 flex-1">
+  <span class="sr-only">Pencarian</span>
+
+  <i data-lucide="search"
+    class="search-icon pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-mute">
+  </i>
+
+  <input
+    id="q" type="search" placeholder="Pencarian..." class="inp search-input" autocomplete="off"
+  >
+</label>
       <script>document.write(CDE_THEME.btn())</script>
       <button class="bg2 !rounded-full !px-3 max-sm:hidden" data-act="bell" aria-label="Notifikasi"><i data-lucide="bell"></i></button>
       <div class="relative">
