@@ -137,7 +137,7 @@
     const k = cur();
     $('#view').innerHTML = VIEWS[k]();
     $('#menu').innerHTML = MENU.map(([id, l, ic]) => `<a class="mi no-underline" href="#/${id}"${id === k ? ' aria-current="page"' : ''}><i data-lucide="${ic}"></i>${l}</a>`).join('') +
-      '<hr class="my-3 border-line"><a class="mi no-underline" href="../landing/anggota.php"><i data-lucide="users"></i>Profil Anggota</a><a class="mi no-underline" href="../landing/index.php"><i data-lucide="eye"></i>Mode Pengunjung</a>';
+      '<hr class="my-3 border-line"><a class="mi no-underline" href="../landing/anggota.html"><i data-lucide="users"></i>Profil Anggota</a><a class="mi no-underline" href="../landing/index.html"><i data-lucide="eye"></i>Mode Pengunjung</a>';
     $('#uname').textContent = ME(); $('#urole').textContent = isAdmin() ? 'Admin' : 'Siswa'; $('#avatar').textContent = isAdmin() ? 'A' : 'S';
     document.title = 'CoDevEnger — ' + (MENU.find((m) => m[0] === k) || [])[1];
     icons();

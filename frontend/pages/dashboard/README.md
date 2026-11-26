@@ -14,4 +14,4 @@ Halaman: Beranda, Absensi, Riwayat Tugas, Tugas Deadline, Jadwal Pelajaran, Jadw
 
 Integrasi backend: ganti `load()`/`save()` di `assets/js/dashboard.js` dengan pemanggilan API. Peran siswa/admin di frontend hanya mengatur tampilan; hak akses sebenarnya harus di backend (RLS). Jangan simpan secret key di frontend.
 
-Tautan ke halaman publik mengarah ke `../landing/index.php` dan `../landing/anggota.php`.
+Tautan ke halaman publik mengarah ke `../landing/index.html` dan `../landing/anggota.html`.
