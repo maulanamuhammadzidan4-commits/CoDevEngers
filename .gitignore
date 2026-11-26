@@ -36,6 +36,10 @@ Thumbs.db
 
 # IDE settings
 .idea/
+.vscode/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+backend/.env
+backend/private/
