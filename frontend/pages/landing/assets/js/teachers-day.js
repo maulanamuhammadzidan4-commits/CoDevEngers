@@ -95,19 +95,19 @@
     const popup2       = document.getElementById('td-popup-2');
     const videoOverlay = document.getElementById('td-video-overlay');
     const bsodVideo    = document.getElementById('td-bsod-video');
-    const btnClaim     = document.getElementById('td-btn-claim');
 
     // Tampilkan pop-up 2 segera
     if (popup2) show(popup2);
 
-    // Tombol KLAIM → mulai video BSOD
-    if (btnClaim) {
-      btnClaim.addEventListener('click', function (e) {
+    // Pasang listener ke SEMUA .td-btn-claim di halaman
+    // (menghindari bug duplicate ID – tombol di popup dan di halaman utama)
+    document.querySelectorAll('.td-btn-claim').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
         e.stopPropagation();
         hide(popup2);
         startVideo();
       });
-    }
+    });
 
     function startVideo() {
       if (!videoOverlay || !bsodVideo) return;

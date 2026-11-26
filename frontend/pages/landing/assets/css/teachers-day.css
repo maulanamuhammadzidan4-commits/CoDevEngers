@@ -29,6 +29,7 @@
 
 /* ═══════════════════════════════════════════════
    POP-UP 1 – Kotak misterius (di-inject semua halaman)
+   Warna pucat / netral – tidak mengikuti tema halaman
    ═══════════════════════════════════════════════ */
 #td-popup-1 {
   /* Tanpa backdrop – terasa "nyempil" di atas konten */
@@ -39,13 +40,12 @@
   position: relative;
   width: clamp(160px, 28vw, 260px);
   height: clamp(160px, 28vw, 260px);
-  border: 3px solid #4DA3FF;
-  border-radius: 12px;
-  background: #111B3D;
+  border: 2px solid #c8c8c8;
+  border-radius: 8px;
+  background: #f0ede8;
   box-shadow:
-    0 0 0 1px #22305F,
-    0 8px 32px rgba(0,0,0,.7),
-    0 0 24px rgba(77,163,255,.2);
+    0 2px 12px rgba(0,0,0,.18),
+    0 1px 3px rgba(0,0,0,.1);
   cursor: pointer;
   animation: tdBoxIn .35s cubic-bezier(.2,.9,.3,1) both;
 }
@@ -58,20 +58,21 @@
 /* Tombol X */
 .td-btn-close-1 {
   position: absolute;
-  top: 8px; left: 8px;
-  width: 28px; height: 28px;
-  border: 1.5px solid #4DA3FF;
-  border-radius: 6px;
-  background: #0A1128;
-  color: #AAB4D4;
-  font-size: 14px;
+  top: 6px; left: 6px;
+  width: 24px; height: 24px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  background: #e0dcd6;
+  color: #666;
+  font-size: 12px;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   z-index: 1;
-  transition: background .2s, color .2s, border-color .2s;
+  transition: background .15s, color .15s, border-color .15s;
   line-height: 1;
+  font-family: Arial, sans-serif;
 }
-.td-btn-close-1:hover { background:#C81D25; border-color:#FF5A5F; color:#fff; }
+.td-btn-close-1:hover { background:#cc2200; border-color:#aa1100; color:#fff; }
 
 /* Area klik seluruh kotak */
 .td-click-area { position: absolute; inset: 0; border-radius: inherit; }

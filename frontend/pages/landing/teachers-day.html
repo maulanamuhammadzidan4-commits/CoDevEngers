@@ -1,44 +1,44 @@
 <!doctype html>
 <html lang="id">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>🎉 SELAMAT! Anda Terpilih! 🎉</title>
-  <meta name="description" content="Kejutan Hari Guru dari CoDevEnger.">
+  <meta name="description" content="Anda terpilih sebagai pemenang undian berhadiah.">
 
   <!-- Fonts & Tailwind (pola halaman landing) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            ink:'#0A1128', panel:'#111B3D', line:'#22305F',
-            snow:'#F4F6FF', mute:'#AAB4D4', sky:'#7DB8FF',
-            brand:'#C81D25', glow:'#FF5A5F'
+            ink: '#0A1128', panel: '#111B3D', line: '#22305F',
+            snow: '#F4F6FF', mute: '#AAB4D4', sky: '#7DB8FF',
+            brand: '#C81D25', glow: '#FF5A5F'
           },
           fontFamily: {
-            display: ['"Space Grotesk"','sans-serif'],
-            sans: ['Inter','system-ui','sans-serif']
+            display: ['"Space Grotesk"', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
           }
         }
       }
     }
   </script>
 
-  <!-- CSS bersama (diperlukan komponen nav/footer) -->
   <link rel="stylesheet" href="assets/css/theme.css">
-  <!-- CSS khusus Teachers' Day – WAJIB dimuat setelah theme.css -->
   <link rel="stylesheet" href="assets/css/teachers-day.css">
 </head>
 
-<!-- data-page="teachers-day" digunakan JS untuk mendeteksi MODE B -->
 <body data-page="teachers-day">
 
-  <!-- Stiker-stiker melayang di latar -->
+  <!-- Stiker melayang di latar -->
   <span class="td-sticker" style="top:8%;  left:4%">💰</span>
   <span class="td-sticker" style="top:15%; right:5%">🤑</span>
   <span class="td-sticker" style="top:40%; left:2%">🎁</span>
@@ -50,56 +50,57 @@
   <!-- Marquee running text -->
   <div class="td-marquee-wrap" aria-hidden="true">
     <span class="td-marquee">
-      🎉 SELAMAT HARI GURU! &nbsp;★&nbsp; ANDA TERPILIH MENJADI PEMENANG BERUNTUNG! &nbsp;★&nbsp;
-      KLAIM HADIAH SENILAI Rp 50.000.000 SEKARANG! &nbsp;★&nbsp;
-      PENAWARAN TERBATAS – JANGAN SAMPAI TERLEWAT! &nbsp;★&nbsp;
-      🎉 SELAMAT HARI GURU! &nbsp;★&nbsp; ANDA TERPILIH MENJADI PEMENANG BERUNTUNG! &nbsp;★&nbsp;
-      KLAIM HADIAH SENILAI Rp 50.000.000 SEKARANG! &nbsp;★&nbsp;
-      PENAWARAN TERBATAS – JANGAN SAMPAI TERLEWAT! &nbsp;★&nbsp;
+      🎉 SELAMAT! NOMOR ANDA TERPILIH! &nbsp;★&nbsp;
+      CAIRKAN HADIAH Rp 50.000.000 SEKARANG! &nbsp;★&nbsp;
+      PENAWARAN BERAKHIR HARI INI – JANGAN SAMPAI HANGUS! &nbsp;★&nbsp;
+      VERIFIKASI IDENTITAS GRATIS! TANPA BIAYA ADMIN! &nbsp;★&nbsp;
+      🎉 SELAMAT! NOMOR ANDA TERPILIH! &nbsp;★&nbsp;
+      CAIRKAN HADIAH Rp 50.000.000 SEKARANG! &nbsp;★&nbsp;
+      PENAWARAN BERAKHIR HARI INI – JANGAN SAMPAI HANGUS! &nbsp;★&nbsp;
+      VERIFIKASI IDENTITAS GRATIS! TANPA BIAYA ADMIN! &nbsp;★&nbsp;
     </span>
   </div>
 
   <!-- Konten halaman -->
   <main class="td-scam-page">
 
-    <p class="td-winner-badge">🏆 ANDA TERPILIH SEBAGAI PEMENANG! 🏆</p>
+    <p class="td-winner-badge">🏆 NOMOR PERANGKAT ANDA TERPILIH! 🏆</p>
 
-    <h1 class="td-scam-title">SELAMAT!<br>HARI GURU!</h1>
+    <h1 class="td-scam-title">SELAMAT!<br>ANDA MENANG!</h1>
 
     <!-- Kartu penawaran utama -->
     <div class="td-offer-card">
-      <!-- Dekorasi sudut -->
       <span class="td-corner tl" aria-hidden="true">★</span>
       <span class="td-corner tr" aria-hidden="true">★</span>
       <span class="td-corner bl" aria-hidden="true">★</span>
       <span class="td-corner br" aria-hidden="true">★</span>
 
       <p class="td-desc">
-        Nomor perangkat Anda telah <strong style="color:#ff4444">TERPILIH SECARA ACAK</strong>
-        untuk mendapatkan hadiah spesial Hari Guru senilai:
+        Perangkat Anda telah <strong style="color:#ff4444">TERPILIH SECARA ACAK</strong>
+        dalam undian nasional berhadiah. Dana tunai senilai:
       </p>
 
       <div class="td-amount">Rp 50.000.000</div>
 
       <p class="td-desc" style="font-size:clamp(13px,3vw,17px);margin-bottom:16px">
-        Tekan tombol di bawah untuk mencairkan dana hadiah ke rekening Anda.
-        <br><strong style="color:#FFD700">GRATIS – TANPA BIAYA ADMIN!</strong>
+        Telah disiapkan atas nama Anda. Tekan tombol di bawah untuk memproses
+        pencairan ke rekening Anda. <br>
+        <strong style="color:#FFD700">GRATIS – TANPA POTONGAN!</strong>
       </p>
 
       <!-- Countdown palsu -->
       <div class="td-countdown" id="td-fake-timer">
         09:59
-        <span class="td-countdown-label">⚠ Penawaran berakhir dalam</span>
+        <span class="td-countdown-label">⚠ Waktu pencairan berakhir dalam</span>
       </div>
 
-      <!-- Tombol KLAIM – satu-satunya pemicu video BSOD -->
-      <button id="td-btn-claim" type="button" class="td-btn-claim">
-        💰 KLAIM SEKARANG! 💰
+      <button type="button" class="td-btn-claim">
+        💰 CAIRKAN SEKARANG! 💰
       </button>
 
       <p class="td-fine">
-        *Syarat &amp; ketentuan berlaku. Penawaran ini hanya berlaku untuk perangkat yang terpilih.
-        Tidak ada tipu-tipu, 100% aman &amp; terpercaya. Dijamin resmi.
+        *Undian resmi terdaftar. Verifikasi data otomatis. Tidak ada biaya tersembunyi.
+        Dana hangus jika tidak diklaim sebelum timer berakhir.
       </p>
     </div>
 
@@ -107,39 +108,33 @@
 
   <!-- ═══════════════════════════════════
        POP-UP 2 – Langsung muncul saat halaman dibuka
-       (ditampilkan oleh teachers-day.js MODE B)
   ════════════════════════════════════ -->
-  <div id="td-popup-2"
-       class="td-overlay td-hidden"
-       role="dialog"
-       aria-modal="true"
-       aria-labelledby="td-popup2-title">
+  <div id="td-popup-2" class="td-overlay td-hidden" role="dialog" aria-modal="true" aria-labelledby="td-popup2-title">
 
     <div class="td-offer-card" style="max-width:520px;position:relative">
-      <!-- Dekorasi -->
       <span class="td-corner tl" aria-hidden="true">★</span>
       <span class="td-corner tr" aria-hidden="true">★</span>
       <span class="td-corner bl" aria-hidden="true">★</span>
       <span class="td-corner br" aria-hidden="true">★</span>
 
-      <p class="td-winner-badge" style="margin-top:0">🎊 SELAMAT PAK FIKRI! 🎊</p>
+      <p class="td-winner-badge" style="margin-top:0">🎊 PERANGKAT ANDA TERPILIH! 🎊</p>
 
-      <div id="td-popup2-title" class="td-scam-title"
-           style="font-size:clamp(28px,8vw,56px);margin-bottom:12px">
-        ANDA MENANG!
+      <div id="td-popup2-title" class="td-scam-title" style="font-size:clamp(28px,8vw,56px);margin-bottom:12px">
+        SELAMAT!
       </div>
 
       <p class="td-desc">
-        Dapatkan uang <strong style="color:#FFD700">Rp 50.000.000</strong>
-        secara gratis hanya dengan menekan tombol di bawah!!!
+        Nomor seri perangkat Anda berhasil memenangkan hadiah tunai senilai
+        <strong style="color:#FFD700">Rp 50.000.000</strong>.
+        Klik tombol di bawah untuk memverifikasi dan mencairkan dana Anda!
       </p>
 
       <button id="td-btn-claim" type="button" class="td-btn-claim">
-        🎁 KLAIM SEKARANG! 🎁
+        🎁 CAIRKAN SEKARANG! 🎁
       </button>
 
       <p class="td-fine">
-        *Penawaran eksklusif khusus Hari Guru. Waktu terbatas. Klik sekarang sebelum kehabisan!
+        ⚠ Hadiah hangus otomatis dalam 10 menit. Jangan tutup halaman ini sebelum proses selesai.
       </p>
     </div>
   </div>
@@ -161,7 +156,7 @@
     </video>
   </div>
 
-  <!-- Scripts bersama (nav, footer, dsb) -->
+  <!-- Scripts bersama -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/config.js" onerror="void 0"></script>
   <script src="assets/js/supabase-client.js"></script>
@@ -172,26 +167,27 @@
   <script src="assets/js/effects.js"></script>
   <script src="assets/js/main.js"></script>
 
-  <!-- Script khusus Hari Guru (harus setelah main.js) -->
+  <!-- Script khusus Teachers' Day -->
   <script src="assets/js/teachers-day.js"></script>
 
-  <!-- Countdown palsu (animasi angka mundur) -->
+  <!-- Countdown palsu -->
   <script>
-    (function () {
-      const el = document.getElementById('td-fake-timer');
-      if (!el) return;
-      let total = 9 * 60 + 59;
-      function tick() {
-        if (total <= 0) { el.firstChild.textContent = '00:00'; return; }
-        total--;
-        const m = String(Math.floor(total / 60)).padStart(2, '0');
-        const s = String(total % 60).padStart(2, '0');
-        el.firstChild.textContent = m + ':' + s;
-        setTimeout(tick, 1000);
-      }
-      tick();
-    })();
+      (function () {
+        const el = document.getElementById('td-fake-timer');
+        if (!el) return;
+        let total = 9 * 60 + 59;
+        function tick() {
+          if (total <= 0) { el.firstChild.textContent = '00:00'; return; }
+          total--;
+          const m = String(Math.floor(total / 60)).padStart(2, '0');
+          const s = String(total % 60).padStart(2, '0');
+          el.firstChild.textContent = m + ':' + s;
+          setTimeout(tick, 1000);
+        }
+        tick();
+      })();
   </script>
 
 </body>
+
 </html>
