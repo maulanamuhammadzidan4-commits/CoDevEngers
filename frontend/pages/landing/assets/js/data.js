@@ -1,4 +1,4 @@
-/* Data placeholder untuk demo/pengembangan. Lokasi: frontend/assets/js/data.js
+/* Data placeholder untuk demo/pengembangan. Lokasi: frontend/pages/landing/assets/js/data.js
    Bentuk objek memakai camelCase sesuai standar JSON proyek.
    GANTI dengan data nyata lewat api.js setelah schema final dari Zidan. */
 (function () {

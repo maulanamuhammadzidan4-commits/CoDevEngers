@@ -1,4 +1,4 @@
-/* Lapisan akses data publik. Lokasi: frontend/assets/js/api.js
+/* Lapisan akses data publik. Lokasi: frontend/pages/landing/assets/js/api.js
    Semua halaman memanggil CDE_API, bukan Supabase langsung -> mudah diganti saat schema final.
 
    ATURAN:

@@ -36,7 +36,7 @@
     <section class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px] text-center">
       <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-3 text-[clamp(24px,5vw,32px)]">Lihat momen kebersamaan kami</h2>
       <p class="mb-6 text-mute">Dokumentasi kegiatan kelas ada di galeri.</p>
-      <a class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline" href="galeri.html">Buka Galeri</a>
+      <a class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline" href="galeri.php">Buka Galeri</a>
     </section>
   </main>
   <div data-slot="footer"></div>

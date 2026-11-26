@@ -1,5 +1,5 @@
 /* Efek interaksi: scroll reveal, tilt kartu, animasi scroll mengerucut, musik, intro.
-   Lokasi: frontend/assets/js/effects.js. Tanpa library; semua menghormati "kurangi gerakan". */
+   Lokasi: frontend/pages/landing/assets/js/effects.js. Tanpa library; semua menghormati "kurangi gerakan". */
 (function () {
   'use strict';
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

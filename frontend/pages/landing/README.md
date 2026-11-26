@@ -3,15 +3,16 @@
 Halaman publik pengunjung: Beranda, Keunggulan, Anggota, Galeri, Ruang Wali Kelas.
 Stack: PHP + Tailwind CSS (CDN) + Vanilla JS + Supabase JS SDK. Tanpa framework.
 
-Lokasi di repo: `CoDevEngers/frontend/`
+Lokasi di repo: `CoDevEngers/frontend/pages/landing/`
 
 ## Struktur
 ```
-frontend/
+frontend/pages/landing/
 ├── index.php  keunggulan.php  anggota.php  galeri.php  wali-kelas.php
-├── .gitignore                      # mengabaikan assets/js/config.js
+├── .gitignore                      # mengabaikan **/assets/js/config.js
 └── assets/
     ├── css/theme.css               # animasi & efek (kartu, scroll, bat, laba-laba)
+    ├── images/                     # aset gambar khusus landing page
     └── js/
         ├── config.example.js       # salin -> config.js (di-gitignore)
         ├── supabase-client.js      # client (anon key saja)
@@ -25,7 +26,7 @@ frontend/
 
 ## Menjalankan lokal
 ```bash
-cd frontend
+cd frontend/pages/landing
 python3 -m http.server 8080        # lalu buka http://localhost:8080
 ```
 Tidak perlu build. Default memakai data placeholder (`USE_DUMMY_DATA: true`).
@@ -38,7 +39,7 @@ Jika `config.js` tidak ada, halaman tetap jalan dengan data placeholder.
 4. Gambar: pakai URL https dari Supabase Storage (`photoUrl`, `coverUrl`). Jangan simpan foto di InfinityFree.
 
 ## Deploy (InfinityFree)
-Upload ISI folder `frontend/` ke `htdocs/` (index.php harus di root htdocs). Jangan upload `config.js` yang berisi secret; anon key boleh, service_role tidak pernah.
+Upload ISI folder `frontend/pages/landing/` ke `htdocs/` (index.php harus di root htdocs). Jangan upload `config.js` yang berisi secret; anon key boleh, service_role tidak pernah.
 
 ## Checklist uji manual
 - [ ] Buka 5 halaman; navbar berpindah halaman dan menandai halaman aktif

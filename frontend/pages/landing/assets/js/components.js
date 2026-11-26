@@ -1,4 +1,4 @@
-/* Komponen layout reusable (nav, footer, dekorasi hero, overlay). Lokasi: frontend/assets/js/components.js
+/* Komponen layout reusable (nav, footer, dekorasi hero, overlay). Lokasi: frontend/pages/landing/assets/js/components.js
    Dipasang ke elemen [data-slot="..."] pada setiap halaman, jadi perubahan cukup dilakukan di satu tempat. */
 (function () {
   'use strict';
