@@ -3,9 +3,9 @@
 (function () {
   'use strict';
   const LINKS = [
-    ['home', 'index.php', 'Beranda'], ['keunggulan', 'keunggulan.php', 'Keunggulan'],
-    ['anggota', 'anggota.php', 'Anggota'], ['galeri', 'galeri.php', 'Galeri'],
-    ['wali-kelas', 'wali-kelas.php', 'Ruang Wali Kelas']
+    ['home', 'index.html', 'Beranda'], ['keunggulan', 'keunggulan.html', 'Keunggulan'],
+    ['anggota', 'anggota.html', 'Anggota'], ['galeri', 'galeri.html', 'Galeri'],
+    ['wali-kelas', 'wali-kelas.html', 'Ruang Wali Kelas']
   ];
   const f1 = (n) => Math.round(n * 10) / 10;
 
@@ -109,11 +109,11 @@
   function nav(active) {
     const items = LINKS.map(([key, href, label]) => `<a class="nl text-[#C9D2F0] no-underline" href="${href}"${key === active ? ' aria-current="page" style="color:#fff;font-weight:600"' : ''}>${label}</a>`).join('');
     return `<nav class="anim-drop mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6" aria-label="Navigasi utama">
-      <a href="index.php" class="flex items-center gap-2.5 text-snow no-underline">
+      <a href="index.html" class="flex items-center gap-2.5 text-snow no-underline">
         <svg width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Logo CoDevEnger"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="#C81D25"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="#0A1128"/></svg>
         <span class="font-display text-xl font-bold tracking-wide">CoDevEnger</span></a>
       <div class="flex flex-wrap items-center gap-5 text-[15px]">${items}
-        <a class="btn rounded-lg bg-brand px-[22px] py-[11px] font-semibold text-white no-underline" href="login.php">Masuk Anggota</a></div></nav>`;
+        <a class="btn rounded-lg bg-brand px-[22px] py-[11px] font-semibold text-white no-underline" href="../dashboard/login.html">Masuk Anggota</a></div></nav>`;
   }
 
   function overlays() {
