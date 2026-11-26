@@ -1,4 +1,4 @@
-/* Gaya dashboard CoDevEnger (token tema terang/gelap). Lokasi: frontend/assets/css/dashboard.css
+/* Gaya dashboard CoDevEnger (token tema terang/gelap). Lokasi: frontend/pages/dashboard/assets/css/dashboard.css
    Dipisah dari theme.css milik halaman pengunjung agar tidak bentrok saat merge. */
 /* ---------- Token tema (dipakai Tailwind lewat rgb(var(--x)/<alpha-value>)) ----------
    Merah #C81D25 dan biru CoDevEnger tetap; hanya turunan teks yang disesuaikan agar kontras di mode terang. */

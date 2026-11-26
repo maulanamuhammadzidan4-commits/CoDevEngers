@@ -1,4 +1,4 @@
-/* Dashboard anggota CoDevEnger (SIMULASI frontend). Lokasi: frontend/assets/js/dashboard.js
+/* Dashboard anggota CoDevEnger (SIMULASI frontend). Lokasi: frontend/pages/dashboard/assets/js/dashboard.js
    - Data disimpan di LocalStorage ("cde_dash_v1") dan hanya contoh; belum terhubung ke backend.
    - Peran siswa/admin hanya mengatur tampilan, BUKAN keamanan. Hak akses sebenarnya harus di backend (RLS).
    - Titik integrasi backend: ganti load()/save() dengan pemanggilan API. */
@@ -70,7 +70,7 @@
       const pct = mine.length ? Math.round((mine.filter((x) => x.status === 'hadir').length / mine.length) * 100) : 0;
       const jd = SCHEDULE[TODAY] || [];
       return `<section class="relative mb-5 overflow-hidden rounded-3xl bg-[#05070f] text-white">
-        <img src="assets/img/spiderman.webp" alt="" class="absolute right-0 top-0 h-full w-full object-cover object-[50%_28%] opacity-40 sm:w-1/2 sm:opacity-100" style="-webkit-mask-image:linear-gradient(to right,transparent,#000 45%);mask-image:linear-gradient(to right,transparent,#000 45%)">
+        <img src="assets/images/spiderman.webp" alt="" class="absolute right-0 top-0 h-full w-full object-cover object-[50%_28%] opacity-40 sm:w-1/2 sm:opacity-100" style="-webkit-mask-image:linear-gradient(to right,transparent,#000 45%);mask-image:linear-gradient(to right,transparent,#000 45%)">
         <div class="relative max-w-[560px] p-6 sm:p-9"><p class="text-sm text-[#AAB4D4]">${TODAY}, ${fdate(ymd(T0))}</p>
           <h1 class="mt-2 text-3xl font-bold leading-tight sm:text-4xl">Halo, ${esc(ME())}</h1>
           <p class="mt-3 text-[#C9D2F0]">${a.length ? `Ada ${a.length} tugas aktif, ${a.filter((t) => diff(t.due) < 0).length} di antaranya terlambat.` : 'Semua tugas sudah selesai.'}</p>
@@ -137,7 +137,7 @@
     const k = cur();
     $('#view').innerHTML = VIEWS[k]();
     $('#menu').innerHTML = MENU.map(([id, l, ic]) => `<a class="mi no-underline" href="#/${id}"${id === k ? ' aria-current="page"' : ''}><i data-lucide="${ic}"></i>${l}</a>`).join('') +
-      '<hr class="my-3 border-line"><a class="mi no-underline" href="anggota.html"><i data-lucide="users"></i>Profil Anggota</a><a class="mi no-underline" href="index.html"><i data-lucide="eye"></i>Mode Pengunjung</a>';
+      '<hr class="my-3 border-line"><a class="mi no-underline" href="../landing/anggota.php"><i data-lucide="users"></i>Profil Anggota</a><a class="mi no-underline" href="../landing/index.php"><i data-lucide="eye"></i>Mode Pengunjung</a>';
     $('#uname').textContent = ME(); $('#urole').textContent = isAdmin() ? 'Admin' : 'Siswa'; $('#avatar').textContent = isAdmin() ? 'A' : 'S';
     document.title = 'CoDevEnger — ' + (MENU.find((m) => m[0] === k) || [])[1];
     icons();

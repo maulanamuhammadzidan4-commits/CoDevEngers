@@ -1,4 +1,4 @@
-/* Tema terang/gelap bersama. Lokasi: frontend/assets/js/theme.js
+/* Tema terang/gelap bersama. Lokasi: frontend/pages/dashboard/assets/js/theme.js
    Dimuat di <head> (sebelum render) agar tidak berkedip. Preferensi disimpan di LocalStorage "cde_theme". Default: gelap. */
 (function () {
   'use strict';
@@ -21,7 +21,7 @@
     if (e.target.closest('[data-theme-toggle]')) set(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
   document.addEventListener('DOMContentLoaded', label);
-  // Matahari tampil saat mode terang, bulan saat mode gelap (diatur theme.css)
+  // Matahari tampil saat mode terang, bulan saat mode gelap (diatur dashboard.css)
   window.CDE_THEME = {
     set: set,
     btn: function (cls) {
