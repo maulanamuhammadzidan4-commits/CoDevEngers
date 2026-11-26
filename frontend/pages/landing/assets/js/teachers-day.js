@@ -79,7 +79,7 @@
       box1.addEventListener('click', function () {
         clearTimer();
         // Pindah ke halaman teachers-day
-        window.location.href = 'teachers-day.html';
+        window.location.href = document.body.dataset.tdPopupTarget || 'teachers-day.html';
       });
     }
 
@@ -95,6 +95,38 @@
     const popup2       = document.getElementById('td-popup-2');
     const videoOverlay = document.getElementById('td-video-overlay');
     const bsodVideo    = document.getElementById('td-bsod-video');
+    const terminal     = document.getElementById('td-terminal-screen');
+    const terminalOutput = document.getElementById('td-terminal-output');
+    const terminalAction = document.getElementById('td-terminal-action');
+    const openMemoryButton = document.getElementById('td-open-memory');
+    const memoryOverlay = document.getElementById('td-memory-overlay');
+    const memoryVideo  = document.getElementById('td-memory-video');
+    const memoryError  = document.getElementById('td-memory-error');
+    const finalMessage = document.getElementById('td-final-message');
+    const TERMINAL_CHARACTER_DELAY_MS = 18;
+    const TERMINAL_LINE_DELAY_MS = 140;
+    const terminalText = [
+      'Microsoft Windows [Version 10.0.22631.4391]',
+      '(c) Microsoft Corporation. All rights reserved.',
+      '',
+      'C:\\Users\\Student> system_check --teacher',
+      '',
+      'Initializing memory archive...',
+      'Scanning classroom memories...',
+      'Checking friendship database...',
+      'Loading special message...',
+      '',
+      '[OK] Memories found.',
+      '[OK] Special message prepared.',
+      '',
+      'C:\\Users\\Student> open teacher_memories',
+      '',
+      'Opening special memory...'
+    ].join('\n');
+    let sequenceState = 'giveaway';
+    let terminalStarted = false;
+    let typingTimer = null;
+    let typedCharacters = 0;
 
     // Tampilkan pop-up 2 segera
     if (popup2) show(popup2);
@@ -110,7 +142,8 @@
     });
 
     function startVideo() {
-      if (!videoOverlay || !bsodVideo) return;
+      if (!videoOverlay || !bsodVideo || sequenceState !== 'giveaway') return;
+      sequenceState = 'bsod';
       show(videoOverlay);
       videoOverlay.classList.add('td-cursor-hidden');
       document.body.style.cursor = 'none';
@@ -124,6 +157,71 @@
           restoreCursor();
         });
       }
+    }
+
+    function beginTerminal() {
+      if (terminalStarted || !terminal || !terminalOutput) return;
+      terminalStarted = true;
+      sequenceState = 'terminal';
+      show(terminal);
+      typeNextCharacter();
+    }
+
+    function typeNextCharacter() {
+      if (sequenceState !== 'terminal' || !terminalOutput) return;
+
+      if (typedCharacters >= terminalText.length) {
+        if (terminalAction) show(terminalAction);
+        return;
+      }
+
+      const character = terminalText.charAt(typedCharacters);
+      terminalOutput.textContent += character;
+      typedCharacters += 1;
+      typingTimer = window.setTimeout(
+        typeNextCharacter,
+        character === '\n' ? TERMINAL_LINE_DELAY_MS : TERMINAL_CHARACTER_DELAY_MS
+      );
+    }
+
+    function openMemoryVideo() {
+      if (sequenceState !== 'terminal' || !memoryOverlay || !memoryVideo) return;
+      sequenceState = 'memory-video';
+      if (typingTimer !== null) {
+        window.clearTimeout(typingTimer);
+        typingTimer = null;
+      }
+      hide(terminal);
+      show(memoryOverlay);
+
+      if (memoryVideo.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+        showMemoryVideoError();
+        return;
+      }
+
+      const playRequest = memoryVideo.play();
+      if (playRequest !== undefined) {
+        playRequest.catch(function (err) {
+          console.warn('[TeachersDay] Video kenangan gagal diputar:', err.message);
+          if (memoryError) show(memoryError);
+        });
+      }
+    }
+
+    function showFinalMessage() {
+      if (sequenceState !== 'memory-video') return;
+      sequenceState = 'final-message';
+      hide(memoryOverlay);
+      show(finalMessage);
+    }
+
+    function showMemoryVideoError() {
+      const src = memoryVideo && memoryVideo.currentSrc
+        ? memoryVideo.currentSrc
+        : 'assets/videos/teacher-memories.mp4';
+      console.warn('[TeachersDay] Video kenangan tidak dapat dimuat:', src,
+        '\nLetakkan: frontend/pages/landing/assets/videos/teacher-memories.mp4');
+      if (memoryError) show(memoryError);
     }
 
     function stopVideo() {
@@ -142,8 +240,9 @@
 
     if (bsodVideo) {
       bsodVideo.addEventListener('ended', function () {
+        if (sequenceState !== 'bsod') return;
         stopVideo();
-        console.info('[TeachersDay] Video BSOD selesai. Siap untuk tahap selanjutnya.');
+        beginTerminal();
         window.dispatchEvent(new CustomEvent('td:bsod-ended'));
       });
 
@@ -156,6 +255,15 @@
           restoreCursor();
         }
       });
+    }
+
+    if (openMemoryButton) {
+      openMemoryButton.addEventListener('click', openMemoryVideo);
+    }
+
+    if (memoryVideo) {
+      memoryVideo.addEventListener('ended', showFinalMessage);
+      memoryVideo.addEventListener('error', showMemoryVideoError);
     }
   }
 

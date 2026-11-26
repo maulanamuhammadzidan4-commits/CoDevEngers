@@ -156,6 +156,53 @@
     </video>
   </div>
 
+  <!-- ═══════════════════════════════════
+       TERMINAL – visual simulation only
+  ════════════════════════════════════ -->
+  <section id="td-terminal-screen" class="td-hidden" aria-label="Pesan khusus">
+    <div class="td-terminal-window">
+      <div class="td-terminal-titlebar" aria-hidden="true">
+        <span class="td-terminal-icon">›_</span>
+        <span>Windows Terminal</span>
+        <span class="td-terminal-controls">— &nbsp; □ &nbsp; ×</span>
+      </div>
+      <div class="td-terminal-body">
+        <pre id="td-terminal-output" aria-live="off"></pre><span class="td-terminal-cursor" aria-hidden="true"></span>
+        <div id="td-terminal-action" class="td-hidden">
+          <p>Kenangan kelas kalian sudah siap.</p>
+          <button id="td-open-memory" type="button">OPEN_SPECIAL_MESSAGE</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       MEMORY VIDEO
+  ════════════════════════════════════ -->
+  <section id="td-memory-overlay" class="td-hidden" aria-label="Video kenangan Hari Guru">
+    <p id="td-memory-error" class="td-memory-error td-hidden" role="alert">
+      Video kenangan belum dapat dimuat. Pastikan file
+      <code>frontend/pages/landing/assets/videos/teacher-memories.mp4</code>
+      tersedia dan dapat diputar oleh browser.
+    </p>
+    <video id="td-memory-video" controls playsinline preload="metadata">
+      <source src="assets/videos/teacher-memories.mp4" type="video/mp4">
+      Browser Anda tidak mendukung elemen video HTML5.
+    </video>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       FINAL TEACHER'S DAY MESSAGE
+  ════════════════════════════════════ -->
+  <section id="td-final-message" class="td-hidden" role="status" aria-live="polite">
+    <div class="td-final-card">
+      <span class="td-final-star" aria-hidden="true">✦</span>
+      <h2>Selamat Hari Guru!</h2>
+      <p>Terima kasih telah menjadi bagian dari perjalanan dan kenangan kami. Terima kasih atas ilmu, kesabaran, dan semua hal baik yang tak terhitung jumlahnya.</p>
+      <span class="td-final-heart" aria-hidden="true">Dengan penuh rasa terima kasih</span>
+    </div>
+  </section>
+
   <!-- Scripts bersama -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/config.js" onerror="void 0"></script>

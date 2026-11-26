@@ -12,6 +12,8 @@ File utama dashboard:
 
 Halaman: Beranda, Absensi, Riwayat Tugas, Tugas Deadline, Jadwal Pelajaran, Jadwal Piket, Galeri, Ruang Wali Kelas, Kata Hari Ini (NGL + moderasi admin).
 
+Di dashboard, kotak misterius Teachers' Day muncul setiap 30 detik. Tombol X menutup dan menjadwalkan ulang popup; klik kotak membuka halaman kejutan Teachers' Day.
+
 Integrasi backend: ganti `load()`/`save()` di `assets/js/dashboard.js` dengan pemanggilan API. Peran siswa/admin di frontend hanya mengatur tampilan; hak akses sebenarnya harus di backend (RLS). Jangan simpan secret key di frontend.
 
 Tautan ke halaman publik mengarah ke `../landing/index.html` dan `../landing/anggota.html`.
