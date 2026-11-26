@@ -1,280 +1,369 @@
 /* CoDevEnger – Teachers' Day Surprise
    Lokasi: frontend/pages/landing/assets/css/teachers-day.css
-   Berisi gaya untuk sistem dua pop-up dan pemutaran video BSOD.
-   Tidak memengaruhi halaman lain. */
+   Berisi gaya untuk:
+     • Pop-up 1 (kotak misterius) yang di-inject ke semua halaman landing
+     • Halaman teachers-day.html dengan estetika iklan/scam mencolok
+     • Video BSOD fullscreen                                              */
 
 /* ═══════════════════════════════════════════════
-   Pop-up overlay dasar
+   Utility kelas tampil / sembunyikan
+   ═══════════════════════════════════════════════ */
+.td-hidden  { display: none !important; }
+.td-visible { display: flex !important; }
+
+/* ═══════════════════════════════════════════════
+   Overlay dasar (dipakai Pop-up 1 & 2)
    ═══════════════════════════════════════════════ */
 .td-overlay {
   position: fixed;
   inset: 0;
   z-index: 9000;
-  display: flex;
   align-items: center;
   justify-content: center;
-  /* Tidak ada backdrop di pop-up pertama agar terasa "nyempil" */
   pointer-events: none;
 }
 
-.td-overlay.is-visible {
+.td-overlay.td-visible {
   pointer-events: auto;
 }
 
-.td-overlay.is-hidden {
-  display: none;
-}
-
 /* ═══════════════════════════════════════════════
-   Pop-up #1 – Kotak misterius
+   POP-UP 1 – Kotak misterius (di-inject semua halaman)
    ═══════════════════════════════════════════════ */
 #td-popup-1 {
-  /* Tidak ada backdrop – kotak terlihat langsung di atas konten */
+  /* Tanpa backdrop – terasa "nyempil" di atas konten */
   background: transparent;
 }
 
 .td-box-1 {
   position: relative;
-  width: clamp(160px, 30vw, 280px);
-  height: clamp(160px, 30vw, 280px);
+  width: clamp(160px, 28vw, 260px);
+  height: clamp(160px, 28vw, 260px);
   border: 3px solid #4DA3FF;
   border-radius: 12px;
   background: #111B3D;
   box-shadow:
     0 0 0 1px #22305F,
-    0 8px 32px rgba(0, 0, 0, .6),
-    0 0 20px rgba(77, 163, 255, .18);
+    0 8px 32px rgba(0,0,0,.7),
+    0 0 24px rgba(77,163,255,.2);
   cursor: pointer;
-  /* Entrance animation */
-  animation: tdBoxIn .35s cubic-bezier(.2, .9, .3, 1) both;
+  animation: tdBoxIn .35s cubic-bezier(.2,.9,.3,1) both;
 }
 
 @keyframes tdBoxIn {
   from { opacity: 0; transform: scale(.82) translateY(16px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 1; transform: scale(1)  translateY(0); }
 }
 
-/* Tombol X di pojok kiri atas */
+/* Tombol X */
 .td-btn-close-1 {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 28px;
-  height: 28px;
+  top: 8px; left: 8px;
+  width: 28px; height: 28px;
   border: 1.5px solid #4DA3FF;
   border-radius: 6px;
   background: #0A1128;
   color: #AAB4D4;
   font-size: 14px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer;
-  z-index: 1; /* di atas area klik kotak */
+  z-index: 1;
   transition: background .2s, color .2s, border-color .2s;
-  /* Stop propagasi – ditangani di JS */
+  line-height: 1;
 }
+.td-btn-close-1:hover { background:#C81D25; border-color:#FF5A5F; color:#fff; }
 
-.td-btn-close-1:hover {
-  background: #C81D25;
-  border-color: #FF5A5F;
-  color: #fff;
-}
-
-/* Area klik seluruh kotak (di luar tombol X) */
-.td-click-area {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  /* Transparan; klik diteruskan ke handler JS */
-}
+/* Area klik seluruh kotak */
+.td-click-area { position: absolute; inset: 0; border-radius: inherit; }
 
 /* ═══════════════════════════════════════════════
-   Pop-up #2 – Penawaran hadiah
+   HALAMAN teachers-day.html – gaya "iklan scam"
    ═══════════════════════════════════════════════ */
-#td-popup-2 {
-  /* Backdrop gelap semi-transparan */
-  background: rgba(0, 0, 0, .72);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+
+/* Body override – berani, mencolok */
+body[data-page="teachers-day"] {
+  background: #0d0d0d;
+  /* Latar animasi diagonal */
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(255,30,0,.06) 18px,
+      rgba(255,30,0,.06) 20px
+    );
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-.td-box-2 {
-  position: relative;
-  width: clamp(300px, 90vw, 520px);
-  padding: clamp(28px, 6vw, 48px) clamp(24px, 5vw, 40px);
-  border: 3px solid #FFD700;
-  border-radius: 20px;
-  background: linear-gradient(145deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%);
-  box-shadow:
-    0 0 0 1px rgba(255, 215, 0, .3),
-    0 0 40px rgba(255, 215, 0, .2),
-    0 16px 48px rgba(0, 0, 0, .8);
-  text-align: center;
+/* Marquee teks bergerak di atas */
+.td-marquee-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 8900;
+  background: linear-gradient(90deg, #ff0000, #ff6600, #ffff00, #00ff00, #ff0000);
+  background-size: 400% 100%;
+  animation: tdRainbow 2s linear infinite;
   overflow: hidden;
-  animation: tdBox2In .4s cubic-bezier(.2, .9, .3, 1) both;
-  /* Isolate klik – tombol KLAIM adalah satu-satunya pemicu */
+  padding: 6px 0;
+}
+@keyframes tdRainbow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
+.td-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: tdMarquee 12s linear infinite;
+  font-family: Arial, sans-serif;
+  font-weight: 900;
+  font-size: 15px;
+  color: #000;
+  letter-spacing: .06em;
+  padding-left: 100%;
+}
+@keyframes tdMarquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
 }
 
-@keyframes tdBox2In {
-  from { opacity: 0; transform: scale(.75) translateY(24px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+/* Konten utama halaman scam */
+.td-scam-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 80px 20px 40px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-/* Dekorasi sudut berkilau */
-.td-box-2::before,
-.td-box-2::after {
-  content: '✦';
-  position: absolute;
-  font-size: 48px;
-  color: rgba(255, 215, 0, .15);
-  pointer-events: none;
+/* Judul besar berkedip */
+.td-scam-title {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: clamp(28px, 8vw, 72px);
+  font-weight: 900;
+  color: #fff;
+  text-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #ff0000,
+    0 0 40px #ff6600,
+    3px 3px 0 #990000;
+  letter-spacing: .04em;
+  animation: tdFlicker 1.8s ease-in-out infinite;
+  margin-bottom: 10px;
 }
-.td-box-2::before { top: -10px; left: -10px; }
-.td-box-2::after  { bottom: -10px; right: -10px; }
+@keyframes tdFlicker {
+  0%,100% { opacity: 1; }
+  48%     { opacity: 1; }
+  50%     { opacity: .6; }
+  52%     { opacity: 1; }
+  94%     { opacity: 1; }
+  96%     { opacity: .4; }
+  98%     { opacity: 1; }
+}
 
-/* Latar kilap bergerak */
-.td-box-2-shine {
+/* Badge PEMENANG */
+.td-winner-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #FF4500 100%);
+  color: #1a0000;
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: clamp(14px, 4vw, 28px);
+  font-weight: 900;
+  letter-spacing: .08em;
+  padding: 8px 28px 10px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #FFD700, 0 6px 24px rgba(255,165,0,.5);
+  animation: tdBadgePulse 1s ease-in-out infinite;
+  text-transform: uppercase;
+}
+@keyframes tdBadgePulse {
+  0%,100% { transform: scale(1);    box-shadow: 0 0 0 3px #FFD700, 0 6px 24px rgba(255,165,0,.5); }
+  50%     { transform: scale(1.06); box-shadow: 0 0 0 6px #FFD700, 0 10px 36px rgba(255,165,0,.8); }
+}
+
+/* Kartu utama penawaran */
+.td-offer-card {
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+  background: linear-gradient(160deg, #1a0000 0%, #300000 40%, #1a0a00 100%);
+  border: 4px solid #FFD700;
+  border-radius: 20px;
+  padding: clamp(28px, 6vw, 52px) clamp(24px, 5vw, 44px);
+  box-shadow:
+    0 0 0 2px rgba(255,215,0,.3),
+    0 0 60px rgba(255,0,0,.3),
+    0 0 120px rgba(255,100,0,.15),
+    0 20px 60px rgba(0,0,0,.8);
+  overflow: hidden;
+}
+
+/* Efek kilap */
+.td-offer-card::after {
+  content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(255, 215, 0, .07) 50%,
-    transparent 60%
+    110deg,
+    transparent 35%, rgba(255,215,0,.08) 50%, transparent 65%
   );
   background-size: 200% 100%;
-  animation: tdShine 2.4s linear infinite;
+  animation: tdShine 2.2s linear infinite;
   pointer-events: none;
   border-radius: inherit;
 }
-
 @keyframes tdShine {
   from { background-position: 200% 0; }
   to   { background-position: -200% 0; }
 }
 
-/* Bintang dekoratif */
-.td-stars {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 20px;
-  animation: tdStarBlink 1.2s ease-in-out infinite;
-  pointer-events: none;
+/* Dekorasi sudut kartu */
+.td-corner { position: absolute; font-size: 36px; opacity: .18; pointer-events: none; }
+.td-corner.tl { top: 10px; left: 14px; }
+.td-corner.tr { top: 10px; right: 14px; }
+.td-corner.bl { bottom: 10px; left: 14px; }
+.td-corner.br { bottom: 10px; right: 14px; }
+
+/* Teks jumlah uang */
+.td-amount {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: clamp(32px, 10vw, 80px);
+  font-weight: 900;
   color: #FFD700;
+  text-shadow: 0 0 16px rgba(255,215,0,.7), 3px 3px 0 #7a5000;
+  line-height: 1;
+  margin: 8px 0 20px;
+  animation: tdAmountPop 2.4s ease-in-out infinite;
+}
+@keyframes tdAmountPop {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.04); }
 }
 
-@keyframes tdStarBlink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: .3; }
-}
-
-/* Badge SELAMAT */
-.td-badge {
-  display: inline-block;
-  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
-  color: #1a0a00;
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(28px, 7vw, 44px);
-  font-weight: 800;
-  letter-spacing: .06em;
-  padding: 4px 20px 6px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  animation: tdPulse 1.6s ease-in-out infinite;
-  position: relative;
-  z-index: 1;
-}
-
-@keyframes tdPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, .6); }
-  50%       { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
-}
-
-/* Teks utama penawaran */
-.td-offer-text {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(14px, 3.5vw, 18px);
-  font-weight: 600;
+/* Deskripsi */
+.td-desc {
+  font-family: Arial, 'Inter', sans-serif;
+  font-size: clamp(14px, 3.5vw, 19px);
+  font-weight: 700;
   color: #FFE066;
-  line-height: 1.5;
-  margin: 0 0 28px;
-  position: relative;
-  z-index: 1;
+  line-height: 1.55;
+  margin-bottom: 28px;
+  text-shadow: 0 1px 4px rgba(0,0,0,.6);
 }
 
-.td-offer-amount {
-  color: #FFD700;
-  font-size: clamp(18px, 5vw, 26px);
-  font-weight: 800;
+/* Countdown palsu */
+.td-countdown {
+  display: inline-block;
+  background: #000;
+  border: 2px solid #ff3300;
+  border-radius: 8px;
+  padding: 6px 20px 8px;
+  color: #ff3300;
+  font-family: 'Courier New', monospace;
+  font-size: clamp(18px, 5vw, 28px);
+  font-weight: 900;
+  letter-spacing: .12em;
+  margin-bottom: 24px;
+  box-shadow: 0 0 10px rgba(255,51,0,.4), inset 0 0 10px rgba(255,0,0,.1);
+}
+.td-countdown-label {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  color: #ff6600;
+  letter-spacing: .15em;
+  text-transform: uppercase;
   display: block;
-  margin-top: 4px;
-  text-shadow: 0 0 12px rgba(255, 215, 0, .5);
+  margin-top: 2px;
 }
 
-/* Tombol KLAIM SEKARANG */
+/* Tombol KLAIM utama */
 .td-btn-claim {
-  position: relative;
-  z-index: 1;
   display: inline-block;
   width: 100%;
-  padding: clamp(14px, 3vw, 18px) clamp(20px, 5vw, 32px);
-  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 60%, #FF4500 100%);
-  color: #1a0a00;
-  font-family: 'Space Grotesk', 'Inter', sans-serif;
-  font-size: clamp(16px, 4vw, 22px);
-  font-weight: 800;
-  letter-spacing: .04em;
-  border: none;
-  border-radius: 12px;
+  padding: clamp(16px, 4vw, 22px) clamp(20px, 5vw, 32px);
+  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 55%, #FF2200 100%);
+  color: #1a0000;
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-size: clamp(18px, 5vw, 28px);
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 3px solid #fff;
+  border-radius: 14px;
   cursor: pointer;
   box-shadow:
-    0 4px 20px rgba(255, 165, 0, .5),
-    inset 0 1px 0 rgba(255, 255, 255, .3);
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  text-transform: uppercase;
-}
-
-.td-btn-claim:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow:
-    0 8px 28px rgba(255, 165, 0, .7),
-    inset 0 1px 0 rgba(255, 255, 255, .3);
-  filter: brightness(1.08);
-}
-
-.td-btn-claim:active {
-  transform: translateY(0) scale(.98);
-}
-
-/* Tanda peringatan kecil di bawah tombol */
-.td-fine-print {
-  margin-top: 12px;
-  font-size: 11px;
-  color: rgba(255, 230, 102, .5);
-  font-style: italic;
+    0 0 0 3px #FFD700,
+    0 6px 28px rgba(255,165,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .18s, box-shadow .18s, filter .18s;
   position: relative;
   z-index: 1;
+  animation: tdBtnWiggle 3s ease-in-out infinite;
+}
+@keyframes tdBtnWiggle {
+  0%,100%  { transform: rotate(0deg) scale(1); }
+  25%      { transform: rotate(-1deg) scale(1.02); }
+  75%      { transform: rotate(1deg) scale(1.02); }
+}
+.td-btn-claim:hover {
+  transform: translateY(-4px) scale(1.04) !important;
+  animation: none;
+  box-shadow: 0 0 0 4px #FFD700, 0 12px 40px rgba(255,165,0,.8), inset 0 1px 0 rgba(255,255,255,.35);
+  filter: brightness(1.1);
+}
+.td-btn-claim:active { transform: scale(.97) !important; }
+
+/* Disclaimer kecil-kecil */
+.td-fine {
+  margin-top: 14px;
+  font-size: 10px;
+  color: rgba(255,215,0,.35);
+  font-family: Arial, sans-serif;
+  line-height: 1.4;
+}
+
+/* Sticker-sticker dekoratif melayang di latar */
+.td-sticker {
+  position: fixed;
+  font-size: clamp(28px, 5vw, 52px);
+  pointer-events: none;
+  z-index: 0;
+  animation: tdFloat 6s ease-in-out infinite;
+  opacity: .5;
+}
+.td-sticker:nth-child(2n)   { animation-delay: -2s; animation-duration: 7s; }
+.td-sticker:nth-child(3n)   { animation-delay: -4s; animation-duration: 5s; }
+@keyframes tdFloat {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50%     { transform: translateY(-20px) rotate(8deg); }
 }
 
 /* ═══════════════════════════════════════════════
-   Video BSOD – fullscreen overlay
+   POP-UP 2 (di teachers-day.html, muncul langsung)
+   ═══════════════════════════════════════════════ */
+#td-popup-2 {
+  background: rgba(0,0,0,.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9500;
+}
+
+/* ═══════════════════════════════════════════════
+   VIDEO BSOD – fullscreen
    ═══════════════════════════════════════════════ */
 #td-video-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
   background: #000;
-  display: flex;
   align-items: center;
   justify-content: center;
-  /* Tersembunyi sampai dipanggil */
-}
-
-#td-video-overlay.is-hidden {
-  display: none;
 }
 
 #td-bsod-video {
@@ -284,53 +373,35 @@
   display: block;
 }
 
-/* Sembunyikan kursor hanya selama video diputar */
-#td-video-overlay.cursor-hidden,
-#td-video-overlay.cursor-hidden * {
+#td-video-overlay.td-cursor-hidden,
+#td-video-overlay.td-cursor-hidden * {
   cursor: none !important;
 }
 
-/* Error fallback jika video gagal dimuat */
 .td-video-error {
   color: #AAB4D4;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   font-size: 15px;
   text-align: center;
   padding: 32px;
   display: none;
 }
-
-#td-video-overlay.show-error .td-video-error {
-  display: block;
-}
-
-#td-video-overlay.show-error #td-bsod-video {
-  display: none;
-}
+#td-video-overlay.td-show-error .td-video-error { display: block; }
+#td-video-overlay.td-show-error #td-bsod-video  { display: none; }
 
 /* ═══════════════════════════════════════════════
    Responsif – layar kecil
    ═══════════════════════════════════════════════ */
 @media (max-width: 480px) {
-  .td-box-1 {
-    width: clamp(130px, 55vw, 200px);
-    height: clamp(130px, 55vw, 200px);
-  }
-
-  .td-box-2 {
-    border-radius: 16px;
-  }
+  .td-box-1 { width: clamp(130px, 55vw, 190px); height: clamp(130px, 55vw, 190px); }
+  .td-offer-card { border-radius: 16px; }
 }
 
 /* ═══════════════════════════════════════════════
    Hormati preferensi "kurangi gerakan"
    ═══════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  .td-box-1,
-  .td-box-2,
-  .td-badge,
-  .td-box-2-shine,
-  .td-stars {
-    animation: none !important;
-  }
+  .td-box-1,.td-badge,.td-btn-claim,.td-scam-title,
+  .td-amount,.td-sticker,.td-marquee,.td-marquee-wrap,
+  .td-countdown,.td-offer-card::after,.td-winner-badge { animation: none !important; }
 }

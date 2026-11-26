@@ -1,229 +1,196 @@
 /* CoDevEnger – Teachers' Day Surprise
    Lokasi: frontend/pages/landing/assets/js/teachers-day.js
-   Mengelola: timer pop-up 1, pop-up 1 (kotak misterius), pop-up 2 (penawaran),
-              pemutaran video BSOD, dan cursor management.
 
-   Tidak bergantung pada modul lain proyek (berdiri sendiri). */
+   MODE A  (semua halaman selain teachers-day.html)
+   ─ Tampilkan pop-up kotak misterius setiap 30 detik.
+   ─ Pop-up TIDAK hilang sampai X ditekan.
+   ─ Klik area dalam kotak → pindah ke teachers-day.html.
+
+   MODE B  (teachers-day.html)
+   ─ Tampilkan pop-up penawaran langsung saat halaman dibuka.
+   ─ Tombol KLAIM SEKARANG! → mulai video BSOD.
+*/
 
 (function () {
   'use strict';
 
   /* ─────────────────────────────────────────────
+     Deteksi halaman
+  ───────────────────────────────────────────── */
+  const isTeachersDay = document.body.dataset.page === 'teachers-day';
+
+  /* ─────────────────────────────────────────────
      Konstanta
   ───────────────────────────────────────────── */
-  const POPUP1_DELAY_MS = 30_000; // 30 detik
+  const POPUP1_DELAY_MS = 30_000;
 
   /* ─────────────────────────────────────────────
-     Referensi elemen DOM
+     Helpers tampil / sembunyikan
   ───────────────────────────────────────────── */
-  const popup1       = document.getElementById('td-popup-1');
-  const popup2       = document.getElementById('td-popup-2');
-  const videoOverlay = document.getElementById('td-video-overlay');
-  const bsodVideo    = document.getElementById('td-bsod-video');
-  const btnClose1    = document.getElementById('td-btn-close-1');
-  const btnClaim     = document.getElementById('td-btn-claim');
-  const videoError   = document.querySelector('.td-video-error');
+  function show(el) { if (!el) return; el.classList.remove('td-hidden'); el.classList.add('td-visible'); }
+  function hide(el) { if (!el) return; el.classList.remove('td-visible'); el.classList.add('td-hidden'); }
 
-  /* ─────────────────────────────────────────────
-     State
-  ───────────────────────────────────────────── */
-  let popup1Timer   = null;  // ID dari setTimeout yang sedang aktif
-  let popup1Opened  = false; // apakah pop-up 1 pernah dibuka (klik area dalam)
+  /* ══════════════════════════════════════════════
+     MODE A – Pop-up 1 (kotak misterius), semua halaman
+  ═══════════════════════════════════════════════ */
+  function initModeA() {
+    // Buat dan sisipkan pop-up 1 ke dalam body
+    const popup1 = createPopup1();
+    document.body.appendChild(popup1);
 
-  /* ─────────────────────────────────────────────
-     Helpers – tampil / sembunyikan elemen
-  ───────────────────────────────────────────── */
-  function show(el) {
-    el.classList.remove('is-hidden');
-    el.classList.add('is-visible');
-  }
+    let timer = null;
 
-  function hide(el) {
-    el.classList.remove('is-visible');
-    el.classList.add('is-hidden');
-  }
-
-  /* ─────────────────────────────────────────────
-     Timer management – pop-up 1
-     Pastikan hanya satu timer berjalan setiap saat.
-  ───────────────────────────────────────────── */
-  function clearPopup1Timer() {
-    if (popup1Timer !== null) {
-      clearTimeout(popup1Timer);
-      popup1Timer = null;
+    function clearTimer() {
+      if (timer !== null) { clearTimeout(timer); timer = null; }
     }
-  }
 
-  function schedulePopup1() {
-    // Jangan jadwalkan jika pop-up sudah pernah dibuka (klik area dalam)
-    if (popup1Opened) return;
-
-    clearPopup1Timer(); // pastikan tidak ada timer ganda
-
-    popup1Timer = setTimeout(function () {
-      popup1Timer = null;
-      openPopup1();
-    }, POPUP1_DELAY_MS);
-  }
-
-  /* ─────────────────────────────────────────────
-     Pop-up 1 – buka / tutup
-  ───────────────────────────────────────────── */
-  function openPopup1() {
-    if (popup1Opened) return; // sudah dialihkan ke pop-up 2, tidak perlu tampil lagi
-    // Reset animasi agar terlihat setiap kali muncul
-    const box = popup1.querySelector('.td-box-1');
-    if (box) {
-      box.style.animation = 'none';
-      // Paksa reflow sebelum re-menerapkan animasi
-      void box.offsetWidth;
-      box.style.animation = '';
+    function schedulePopup() {
+      clearTimer(); // pastikan tidak ada timer ganda
+      timer = setTimeout(function () {
+        timer = null;
+        openPopup();
+      }, POPUP1_DELAY_MS);
     }
-    show(popup1);
-  }
 
-  function closePopup1() {
-    hide(popup1);
-  }
+    function openPopup() {
+      // Reset animasi setiap kali muncul
+      const box = popup1.querySelector('.td-box-1');
+      if (box) { box.style.animation = 'none'; void box.offsetWidth; box.style.animation = ''; }
+      show(popup1);
+    }
 
-  /* ─────────────────────────────────────────────
-     Pop-up 1 – event listener
-  ───────────────────────────────────────────── */
+    function closePopup() {
+      hide(popup1);
+    }
 
-  // Tombol X: tutup pop-up 1, jadwalkan ulang setelah 30 detik
-  if (btnClose1) {
-    btnClose1.addEventListener('click', function (e) {
-      e.stopPropagation(); // jangan sampai meneruskan ke area klik kotak
-      closePopup1();
-      schedulePopup1();   // munculkan lagi 30 detik kemudian
-    });
-  }
+    // Tombol X – tutup dan jadwalkan ulang
+    const btnX = popup1.querySelector('.td-btn-close-1');
+    if (btnX) {
+      btnX.addEventListener('click', function (e) {
+        e.stopPropagation();
+        closePopup();
+        schedulePopup();
+      });
+    }
 
-  // Area dalam kotak (selain tombol X): tutup pop-up 1, buka pop-up 2
-  // Gunakan delegasi pada elemen kotak; tombol X menghentikan propagasi sendiri
-  if (popup1) {
+    // Klik area dalam kotak → pindah ke teachers-day.html
     const box1 = popup1.querySelector('.td-box-1');
     if (box1) {
       box1.addEventListener('click', function () {
-        popup1Opened = true;      // tandai sudah dibuka
-        clearPopup1Timer();       // batalkan timer yang masih berjalan
-        closePopup1();
-        openPopup2();
+        clearTimer();
+        // Pindah ke halaman teachers-day
+        window.location.href = 'teachers-day.html';
       });
     }
+
+    // Jadwalkan pop-up pertama
+    schedulePopup();
   }
 
-  /* ─────────────────────────────────────────────
-     Pop-up 2 – buka / tutup
-  ───────────────────────────────────────────── */
-  function openPopup2() {
-    // Reset animasi masuk pop-up 2
-    const box2 = popup2.querySelector('.td-box-2');
-    if (box2) {
-      box2.style.animation = 'none';
-      void box2.offsetWidth;
-      box2.style.animation = '';
-    }
-    show(popup2);
-  }
+  /* ══════════════════════════════════════════════
+     MODE B – teachers-day.html
+     Pop-up 2 muncul langsung; video BSOD dipicu tombol KLAIM
+  ═══════════════════════════════════════════════ */
+  function initModeB() {
+    const popup2       = document.getElementById('td-popup-2');
+    const videoOverlay = document.getElementById('td-video-overlay');
+    const bsodVideo    = document.getElementById('td-bsod-video');
+    const btnClaim     = document.getElementById('td-btn-claim');
 
-  function closePopup2() {
-    hide(popup2);
-  }
+    // Tampilkan pop-up 2 segera
+    if (popup2) show(popup2);
 
-  /* ─────────────────────────────────────────────
-     Pop-up 2 – event listener
-     Hanya tombol KLAIM yang memulai video.
-     Klik di luar tombol (tapi masih di dalam kotak) diabaikan.
-  ───────────────────────────────────────────── */
-  if (btnClaim) {
-    btnClaim.addEventListener('click', function (e) {
-      e.stopPropagation(); // pastikan tidak bubble
-      closePopup2();
-      startBSODVideo();
-    });
-  }
-
-  // Klik pada overlay backdrop (di luar kotak) tidak berbuat apa-apa
-  // Ini intentional: hanya tombol KLAIM yang memulai video.
-  // Tidak ada listener pada #td-popup-2 secara keseluruhan yang menutup pop-up,
-  // agar pengguna tidak bisa keluar dari pop-up 2 dengan sembarangan klik.
-
-  /* ─────────────────────────────────────────────
-     Video BSOD
-  ───────────────────────────────────────────── */
-  function startBSODVideo() {
-    if (!videoOverlay || !bsodVideo) return;
-
-    show(videoOverlay);
-
-    // Sembunyikan kursor selama video berlangsung
-    videoOverlay.classList.add('cursor-hidden');
-    document.body.style.cursor = 'none';
-
-    // Coba putar video
-    bsodVideo.currentTime = 0;
-    const playPromise = bsodVideo.play();
-
-    if (playPromise !== undefined) {
-      playPromise.catch(function (err) {
-        console.warn('[TeachersDay] Video gagal diputar:', err.message);
-        // Tampilkan pesan error yang wajar; halaman tidak rusak
-        videoOverlay.classList.add('show-error');
-        // Kembalikan kursor agar pengguna bisa tetap berinteraksi
-        restoreCursor();
+    // Tombol KLAIM → mulai video BSOD
+    if (btnClaim) {
+      btnClaim.addEventListener('click', function (e) {
+        e.stopPropagation();
+        hide(popup2);
+        startVideo();
       });
     }
-  }
 
-  function stopBSODVideo() {
-    if (!bsodVideo) return;
-    bsodVideo.pause();
-    bsodVideo.currentTime = 0;
-    hide(videoOverlay);
-    videoOverlay.classList.remove('cursor-hidden');
-    videoOverlay.classList.remove('show-error');
-    restoreCursor();
-  }
+    function startVideo() {
+      if (!videoOverlay || !bsodVideo) return;
+      show(videoOverlay);
+      videoOverlay.classList.add('td-cursor-hidden');
+      document.body.style.cursor = 'none';
 
-  function restoreCursor() {
-    document.body.style.cursor = '';
-    if (videoOverlay) videoOverlay.classList.remove('cursor-hidden');
-  }
-
-  // Ketika video selesai: hentikan overlay, kembalikan kursor
-  // Siapkan state untuk tahap berikutnya (terminal / kenangan)
-  if (bsodVideo) {
-    bsodVideo.addEventListener('ended', function () {
-      stopBSODVideo();
-      // Callback/state untuk tahap berikutnya dapat dipasang di sini:
-      // window.dispatchEvent(new CustomEvent('td:bsod-ended'));
-      console.info('[TeachersDay] Video BSOD selesai. Siap untuk tahap selanjutnya.');
-    });
-
-    // Jika file video tidak ditemukan, tampilkan pesan error konsol – halaman tetap berjalan
-    bsodVideo.addEventListener('error', function () {
-      const src = bsodVideo.currentSrc || bsodVideo.querySelector('source')?.src || '(tidak diketahui)';
-      console.warn(
-        '[TeachersDay] File video tidak ditemukan atau format tidak didukung:', src,
-        '\nLetakkan file bsod-prank.mp4 di: frontend/pages/landing/assets/videos/bsod-prank.mp4'
-      );
-      if (videoOverlay && !videoOverlay.classList.contains('is-hidden')) {
-        videoOverlay.classList.add('show-error');
-        restoreCursor();
+      bsodVideo.currentTime = 0;
+      const p = bsodVideo.play();
+      if (p !== undefined) {
+        p.catch(function (err) {
+          console.warn('[TeachersDay] Video gagal diputar:', err.message);
+          videoOverlay.classList.add('td-show-error');
+          restoreCursor();
+        });
       }
-    });
+    }
+
+    function stopVideo() {
+      if (!bsodVideo) return;
+      bsodVideo.pause();
+      bsodVideo.currentTime = 0;
+      hide(videoOverlay);
+      videoOverlay.classList.remove('td-cursor-hidden', 'td-show-error');
+      restoreCursor();
+    }
+
+    function restoreCursor() {
+      document.body.style.cursor = '';
+      if (videoOverlay) videoOverlay.classList.remove('td-cursor-hidden');
+    }
+
+    if (bsodVideo) {
+      bsodVideo.addEventListener('ended', function () {
+        stopVideo();
+        console.info('[TeachersDay] Video BSOD selesai. Siap untuk tahap selanjutnya.');
+        window.dispatchEvent(new CustomEvent('td:bsod-ended'));
+      });
+
+      bsodVideo.addEventListener('error', function () {
+        const src = bsodVideo.currentSrc || '(tidak diketahui)';
+        console.warn('[TeachersDay] File video tidak ditemukan:', src,
+          '\nLetakkan: frontend/pages/landing/assets/videos/bsod-prank.mp4');
+        if (videoOverlay && !videoOverlay.classList.contains('td-hidden')) {
+          videoOverlay.classList.add('td-show-error');
+          restoreCursor();
+        }
+      });
+    }
+  }
+
+  /* ══════════════════════════════════════════════
+     Pembuatan elemen Pop-up 1 secara dinamis
+     (agar tidak perlu menyisipkan HTML ke setiap halaman)
+  ═══════════════════════════════════════════════ */
+  function createPopup1() {
+    const overlay = document.createElement('div');
+    overlay.id = 'td-popup-1';
+    overlay.className = 'td-overlay td-hidden';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'false');
+    overlay.setAttribute('aria-label', 'Kotak misterius');
+
+    overlay.innerHTML = `
+      <div class="td-box-1" role="presentation">
+        <button class="td-btn-close-1" type="button" aria-label="Tutup">✕</button>
+        <div class="td-click-area" aria-hidden="true"></div>
+      </div>`;
+
+    return overlay;
   }
 
   /* ─────────────────────────────────────────────
-     Inisialisasi: mulai timer pertama
+     Entry point
   ───────────────────────────────────────────── */
   function init() {
-    // Semua elemen tersembunyi di awal (via kelas is-hidden di HTML)
-    schedulePopup1();
+    if (isTeachersDay) {
+      initModeB();
+    } else {
+      initModeA();
+    }
   }
 
-  // Jalankan setelah DOM siap
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

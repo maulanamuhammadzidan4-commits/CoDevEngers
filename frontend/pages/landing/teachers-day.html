@@ -1,150 +1,153 @@
 <!doctype html>
 <html lang="id">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CoDevEnger — Hari Guru 🎉</title>
-  <meta name="description" content="Kejutan Hari Guru dari CoDevEnger untuk wali kelas tercinta.">
+  <title>🎉 SELAMAT! Anda Terpilih! 🎉</title>
+  <meta name="description" content="Kejutan Hari Guru dari CoDevEnger.">
 
-  <!-- Fonts & Tailwind (mengikuti pola halaman landing lain) -->
+  <!-- Fonts & Tailwind (pola halaman landing) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            ink: '#0A1128', panel: '#111B3D', line: '#22305F',
-            snow: '#F4F6FF', mute: '#AAB4D4', sky: '#7DB8FF',
-            brand: '#C81D25', glow: '#FF5A5F'
+            ink:'#0A1128', panel:'#111B3D', line:'#22305F',
+            snow:'#F4F6FF', mute:'#AAB4D4', sky:'#7DB8FF',
+            brand:'#C81D25', glow:'#FF5A5F'
           },
           fontFamily: {
-            display: ['"Space Grotesk"', 'sans-serif'],
-            sans: ['Inter', 'system-ui', 'sans-serif']
+            display: ['"Space Grotesk"','sans-serif'],
+            sans: ['Inter','system-ui','sans-serif']
           }
         }
       }
     }
   </script>
 
-  <!-- Stylesheet bersama -->
+  <!-- CSS bersama (diperlukan komponen nav/footer) -->
   <link rel="stylesheet" href="assets/css/theme.css">
-  <!-- Stylesheet khusus fitur Hari Guru -->
+  <!-- CSS khusus Teachers' Day – WAJIB dimuat setelah theme.css -->
   <link rel="stylesheet" href="assets/css/teachers-day.css">
 </head>
 
-<body class="overflow-x-clip bg-ink font-sans leading-relaxed text-snow" data-page="teachers-day">
+<!-- data-page="teachers-day" digunakan JS untuk mendeteksi MODE B -->
+<body data-page="teachers-day">
 
-  <!-- ═══════════════════════════════════════════
-       Slot komponen (nav, footer, dsb) – diisi main.js
-  ════════════════════════════════════════════ -->
-  <div data-slot="nav"></div>
-  <div data-slot="overlays"></div>
+  <!-- Stiker-stiker melayang di latar -->
+  <span class="td-sticker" style="top:8%;  left:4%">💰</span>
+  <span class="td-sticker" style="top:15%; right:5%">🤑</span>
+  <span class="td-sticker" style="top:40%; left:2%">🎁</span>
+  <span class="td-sticker" style="top:60%; right:3%">💵</span>
+  <span class="td-sticker" style="top:75%; left:7%">⭐</span>
+  <span class="td-sticker" style="top:85%; right:8%">🏆</span>
+  <span class="td-sticker" style="top:30%; left:50%">🎉</span>
 
-  <!-- ═══════════════════════════════════════════
-       Konten halaman utama
-  ════════════════════════════════════════════ -->
-  <main>
-    <section class="mx-auto max-w-[1120px] px-4 pb-6 pt-24 sm:px-6 sm:pt-32 text-center">
-      <span
-        class="inline-block rounded-full border border-[#2A4A94] px-3.5 py-1.5 text-[13px] font-semibold uppercase tracking-widest text-sky mb-6">
-        Hari Guru · CoDevEnger
-      </span>
-      <h1
-        class="mb-5 font-display text-[clamp(38px,9vw,64px)] font-bold leading-[1.05]">
-        Terima kasih,<br>
-        <span class="glowtxt text-glow">Pak Fikri</span>! 🎉
-      </h1>
-      <p class="mb-10 max-w-[520px] mx-auto text-[clamp(16px,2.4vw,19px)] text-[#C9D2F0]">
-        Halaman ini adalah kejutan kecil dari kami, murid-murid CoDevEnger,
-        untuk merayakan Hari Guru bersama bapak.
-      </p>
-      <a class="btn inline-block rounded-lg border-[1.5px] border-[#4DA3FF] px-7 py-3 font-semibold text-[#B5D6FF] no-underline"
-        href="index.html">← Kembali ke Beranda</a>
-    </section>
-  </main>
-
-  <div data-slot="footer"></div>
-
-  <!-- ═══════════════════════════════════════════
-       POP-UP 1 – Kotak misterius
-       Tersembunyi di awal; ditampilkan oleh timer di teachers-day.js
-  ════════════════════════════════════════════ -->
-  <div id="td-popup-1"
-       class="td-overlay is-hidden"
-       role="dialog"
-       aria-modal="false"
-       aria-label="Kotak misterius">
-
-    <div class="td-box-1" role="presentation">
-      <!-- Tombol X pojok kiri atas -->
-      <button id="td-btn-close-1"
-              class="td-btn-close-1"
-              type="button"
-              aria-label="Tutup">✕</button>
-
-      <!-- Area klik seluruh kotak (di luar tombol X).
-           Klik akan ditangkap oleh event listener di td-box-1. -->
-      <div class="td-click-area" aria-hidden="true"></div>
-    </div>
+  <!-- Marquee running text -->
+  <div class="td-marquee-wrap" aria-hidden="true">
+    <span class="td-marquee">
+      🎉 SELAMAT HARI GURU! &nbsp;★&nbsp; ANDA TERPILIH MENJADI PEMENANG BERUNTUNG! &nbsp;★&nbsp;
+      KLAIM HADIAH SENILAI Rp 50.000.000 SEKARANG! &nbsp;★&nbsp;
+      PENAWARAN TERBATAS – JANGAN SAMPAI TERLEWAT! &nbsp;★&nbsp;
+      🎉 SELAMAT HARI GURU! &nbsp;★&nbsp; ANDA TERPILIH MENJADI PEMENANG BERUNTUNG! &nbsp;★&nbsp;
+      KLAIM HADIAH SENILAI Rp 50.000.000 SEKARANG! &nbsp;★&nbsp;
+      PENAWARAN TERBATAS – JANGAN SAMPAI TERLEWAT! &nbsp;★&nbsp;
+    </span>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       POP-UP 2 – Penawaran hadiah
-       Tersembunyi di awal; ditampilkan setelah klik area dalam pop-up 1
-  ════════════════════════════════════════════ -->
+  <!-- Konten halaman -->
+  <main class="td-scam-page">
+
+    <p class="td-winner-badge">🏆 ANDA TERPILIH SEBAGAI PEMENANG! 🏆</p>
+
+    <h1 class="td-scam-title">SELAMAT!<br>HARI GURU!</h1>
+
+    <!-- Kartu penawaran utama -->
+    <div class="td-offer-card">
+      <!-- Dekorasi sudut -->
+      <span class="td-corner tl" aria-hidden="true">★</span>
+      <span class="td-corner tr" aria-hidden="true">★</span>
+      <span class="td-corner bl" aria-hidden="true">★</span>
+      <span class="td-corner br" aria-hidden="true">★</span>
+
+      <p class="td-desc">
+        Nomor perangkat Anda telah <strong style="color:#ff4444">TERPILIH SECARA ACAK</strong>
+        untuk mendapatkan hadiah spesial Hari Guru senilai:
+      </p>
+
+      <div class="td-amount">Rp 50.000.000</div>
+
+      <p class="td-desc" style="font-size:clamp(13px,3vw,17px);margin-bottom:16px">
+        Tekan tombol di bawah untuk mencairkan dana hadiah ke rekening Anda.
+        <br><strong style="color:#FFD700">GRATIS – TANPA BIAYA ADMIN!</strong>
+      </p>
+
+      <!-- Countdown palsu -->
+      <div class="td-countdown" id="td-fake-timer">
+        09:59
+        <span class="td-countdown-label">⚠ Penawaran berakhir dalam</span>
+      </div>
+
+      <!-- Tombol KLAIM – satu-satunya pemicu video BSOD -->
+      <button id="td-btn-claim" type="button" class="td-btn-claim">
+        💰 KLAIM SEKARANG! 💰
+      </button>
+
+      <p class="td-fine">
+        *Syarat &amp; ketentuan berlaku. Penawaran ini hanya berlaku untuk perangkat yang terpilih.
+        Tidak ada tipu-tipu, 100% aman &amp; terpercaya. Dijamin resmi.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════
+       POP-UP 2 – Langsung muncul saat halaman dibuka
+       (ditampilkan oleh teachers-day.js MODE B)
+  ════════════════════════════════════ -->
   <div id="td-popup-2"
-       class="td-overlay is-hidden"
+       class="td-overlay td-hidden"
        role="dialog"
        aria-modal="true"
        aria-labelledby="td-popup2-title">
 
-    <div class="td-box-2">
-      <!-- Efek kilap bergerak (dekoratif) -->
-      <div class="td-box-2-shine" aria-hidden="true"></div>
+    <div class="td-offer-card" style="max-width:520px;position:relative">
+      <!-- Dekorasi -->
+      <span class="td-corner tl" aria-hidden="true">★</span>
+      <span class="td-corner tr" aria-hidden="true">★</span>
+      <span class="td-corner bl" aria-hidden="true">★</span>
+      <span class="td-corner br" aria-hidden="true">★</span>
 
-      <!-- Bintang berkedip -->
-      <div class="td-stars" aria-hidden="true">★★★</div>
+      <p class="td-winner-badge" style="margin-top:0">🎊 SELAMAT PAK FIKRI! 🎊</p>
 
-      <!-- Judul -->
-      <div id="td-popup2-title" class="td-badge">SELAMAT!</div>
+      <div id="td-popup2-title" class="td-scam-title"
+           style="font-size:clamp(28px,8vw,56px);margin-bottom:12px">
+        ANDA MENANG!
+      </div>
 
-      <!-- Pesan utama -->
-      <p class="td-offer-text">
-        Dapatkan uang
-        <span class="td-offer-amount">Rp 50.000.000</span>
+      <p class="td-desc">
+        Dapatkan uang <strong style="color:#FFD700">Rp 50.000.000</strong>
         secara gratis hanya dengan menekan tombol di bawah!!!
       </p>
 
-      <!-- Tombol klaim – SATU-SATUNYA pemicu video BSOD -->
-      <button id="td-btn-claim"
-              type="button"
-              class="td-btn-claim">
-        🎁 KLAIM SEKARANG!
+      <button id="td-btn-claim" type="button" class="td-btn-claim">
+        🎁 KLAIM SEKARANG! 🎁
       </button>
 
-      <!-- Fine print -->
-      <p class="td-fine-print" aria-hidden="true">
-        *Syarat & ketentuan berlaku. Penawaran terbatas. Tidak ada tipu-tipu.
+      <p class="td-fine">
+        *Penawaran eksklusif khusus Hari Guru. Waktu terbatas. Klik sekarang sebelum kehabisan!
       </p>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       VIDEO BSOD – fullscreen overlay
-       Tersembunyi di awal; ditampilkan setelah klik KLAIM SEKARANG!
-  ════════════════════════════════════════════ -->
-  <div id="td-video-overlay"
-       class="is-hidden"
-       role="presentation"
-       aria-hidden="true">
-
-    <!-- Pesan error jika video tidak tersedia (hanya tampil via JS) -->
+  <!-- ═══════════════════════════════════
+       VIDEO BSOD – fullscreen
+  ════════════════════════════════════ -->
+  <div id="td-video-overlay" class="td-hidden" role="presentation" aria-hidden="true">
     <div class="td-video-error">
       <p>⚠️ File video belum tersedia.</p>
       <p style="font-size:13px;margin-top:8px;color:#7DB8FF">
@@ -152,21 +155,13 @@
         <code>frontend/pages/landing/assets/videos/bsod-prank.mp4</code>
       </p>
     </div>
-
-    <!-- Elemen video utama -->
-    <video id="td-bsod-video"
-           playsinline
-           preload="none"
-           style="display:block">
+    <video id="td-bsod-video" playsinline preload="none" style="display:block">
       <source src="assets/videos/bsod-prank.mp4" type="video/mp4">
       Browser Anda tidak mendukung elemen video HTML5.
     </video>
   </div>
 
-  <!-- ═══════════════════════════════════════════
-       Script
-  ════════════════════════════════════════════ -->
-  <!-- Supabase & script bersama (config bersifat opsional) -->
+  <!-- Scripts bersama (nav, footer, dsb) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/config.js" onerror="void 0"></script>
   <script src="assets/js/supabase-client.js"></script>
@@ -177,9 +172,26 @@
   <script src="assets/js/effects.js"></script>
   <script src="assets/js/main.js"></script>
 
-  <!-- Script khusus fitur Hari Guru (dimuat terakhir) -->
+  <!-- Script khusus Hari Guru (harus setelah main.js) -->
   <script src="assets/js/teachers-day.js"></script>
 
-</body>
+  <!-- Countdown palsu (animasi angka mundur) -->
+  <script>
+    (function () {
+      const el = document.getElementById('td-fake-timer');
+      if (!el) return;
+      let total = 9 * 60 + 59;
+      function tick() {
+        if (total <= 0) { el.firstChild.textContent = '00:00'; return; }
+        total--;
+        const m = String(Math.floor(total / 60)).padStart(2, '0');
+        const s = String(total % 60).padStart(2, '0');
+        el.firstChild.textContent = m + ':' + s;
+        setTimeout(tick, 1000);
+      }
+      tick();
+    })();
+  </script>
 
+</body>
 </html>
