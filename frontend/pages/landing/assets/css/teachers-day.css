@@ -1,0 +1,336 @@
+/* CoDevEnger – Teachers' Day Surprise
+   Lokasi: frontend/pages/landing/assets/css/teachers-day.css
+   Berisi gaya untuk sistem dua pop-up dan pemutaran video BSOD.
+   Tidak memengaruhi halaman lain. */
+
+/* ═══════════════════════════════════════════════
+   Pop-up overlay dasar
+   ═══════════════════════════════════════════════ */
+.td-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Tidak ada backdrop di pop-up pertama agar terasa "nyempil" */
+  pointer-events: none;
+}
+
+.td-overlay.is-visible {
+  pointer-events: auto;
+}
+
+.td-overlay.is-hidden {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════
+   Pop-up #1 – Kotak misterius
+   ═══════════════════════════════════════════════ */
+#td-popup-1 {
+  /* Tidak ada backdrop – kotak terlihat langsung di atas konten */
+  background: transparent;
+}
+
+.td-box-1 {
+  position: relative;
+  width: clamp(160px, 30vw, 280px);
+  height: clamp(160px, 30vw, 280px);
+  border: 3px solid #4DA3FF;
+  border-radius: 12px;
+  background: #111B3D;
+  box-shadow:
+    0 0 0 1px #22305F,
+    0 8px 32px rgba(0, 0, 0, .6),
+    0 0 20px rgba(77, 163, 255, .18);
+  cursor: pointer;
+  /* Entrance animation */
+  animation: tdBoxIn .35s cubic-bezier(.2, .9, .3, 1) both;
+}
+
+@keyframes tdBoxIn {
+  from { opacity: 0; transform: scale(.82) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Tombol X di pojok kiri atas */
+.td-btn-close-1 {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid #4DA3FF;
+  border-radius: 6px;
+  background: #0A1128;
+  color: #AAB4D4;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1; /* di atas area klik kotak */
+  transition: background .2s, color .2s, border-color .2s;
+  /* Stop propagasi – ditangani di JS */
+}
+
+.td-btn-close-1:hover {
+  background: #C81D25;
+  border-color: #FF5A5F;
+  color: #fff;
+}
+
+/* Area klik seluruh kotak (di luar tombol X) */
+.td-click-area {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* Transparan; klik diteruskan ke handler JS */
+}
+
+/* ═══════════════════════════════════════════════
+   Pop-up #2 – Penawaran hadiah
+   ═══════════════════════════════════════════════ */
+#td-popup-2 {
+  /* Backdrop gelap semi-transparan */
+  background: rgba(0, 0, 0, .72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.td-box-2 {
+  position: relative;
+  width: clamp(300px, 90vw, 520px);
+  padding: clamp(28px, 6vw, 48px) clamp(24px, 5vw, 40px);
+  border: 3px solid #FFD700;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #1a0a00 0%, #2d1200 50%, #1a0a00 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, .3),
+    0 0 40px rgba(255, 215, 0, .2),
+    0 16px 48px rgba(0, 0, 0, .8);
+  text-align: center;
+  overflow: hidden;
+  animation: tdBox2In .4s cubic-bezier(.2, .9, .3, 1) both;
+  /* Isolate klik – tombol KLAIM adalah satu-satunya pemicu */
+}
+
+@keyframes tdBox2In {
+  from { opacity: 0; transform: scale(.75) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Dekorasi sudut berkilau */
+.td-box-2::before,
+.td-box-2::after {
+  content: '✦';
+  position: absolute;
+  font-size: 48px;
+  color: rgba(255, 215, 0, .15);
+  pointer-events: none;
+}
+.td-box-2::before { top: -10px; left: -10px; }
+.td-box-2::after  { bottom: -10px; right: -10px; }
+
+/* Latar kilap bergerak */
+.td-box-2-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 215, 0, .07) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: tdShine 2.4s linear infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+@keyframes tdShine {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* Bintang dekoratif */
+.td-stars {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 20px;
+  animation: tdStarBlink 1.2s ease-in-out infinite;
+  pointer-events: none;
+  color: #FFD700;
+}
+
+@keyframes tdStarBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .3; }
+}
+
+/* Badge SELAMAT */
+.td-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+  color: #1a0a00;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(28px, 7vw, 44px);
+  font-weight: 800;
+  letter-spacing: .06em;
+  padding: 4px 20px 6px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  animation: tdPulse 1.6s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes tdPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, .6); }
+  50%       { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+}
+
+/* Teks utama penawaran */
+.td-offer-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14px, 3.5vw, 18px);
+  font-weight: 600;
+  color: #FFE066;
+  line-height: 1.5;
+  margin: 0 0 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.td-offer-amount {
+  color: #FFD700;
+  font-size: clamp(18px, 5vw, 26px);
+  font-weight: 800;
+  display: block;
+  margin-top: 4px;
+  text-shadow: 0 0 12px rgba(255, 215, 0, .5);
+}
+
+/* Tombol KLAIM SEKARANG */
+.td-btn-claim {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 100%;
+  padding: clamp(14px, 3vw, 18px) clamp(20px, 5vw, 32px);
+  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 60%, #FF4500 100%);
+  color: #1a0a00;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: clamp(16px, 4vw, 22px);
+  font-weight: 800;
+  letter-spacing: .04em;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 20px rgba(255, 165, 0, .5),
+    inset 0 1px 0 rgba(255, 255, 255, .3);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  text-transform: uppercase;
+}
+
+.td-btn-claim:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 8px 28px rgba(255, 165, 0, .7),
+    inset 0 1px 0 rgba(255, 255, 255, .3);
+  filter: brightness(1.08);
+}
+
+.td-btn-claim:active {
+  transform: translateY(0) scale(.98);
+}
+
+/* Tanda peringatan kecil di bawah tombol */
+.td-fine-print {
+  margin-top: 12px;
+  font-size: 11px;
+  color: rgba(255, 230, 102, .5);
+  font-style: italic;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════
+   Video BSOD – fullscreen overlay
+   ═══════════════════════════════════════════════ */
+#td-video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Tersembunyi sampai dipanggil */
+}
+
+#td-video-overlay.is-hidden {
+  display: none;
+}
+
+#td-bsod-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+
+/* Sembunyikan kursor hanya selama video diputar */
+#td-video-overlay.cursor-hidden,
+#td-video-overlay.cursor-hidden * {
+  cursor: none !important;
+}
+
+/* Error fallback jika video gagal dimuat */
+.td-video-error {
+  color: #AAB4D4;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  text-align: center;
+  padding: 32px;
+  display: none;
+}
+
+#td-video-overlay.show-error .td-video-error {
+  display: block;
+}
+
+#td-video-overlay.show-error #td-bsod-video {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════
+   Responsif – layar kecil
+   ═══════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .td-box-1 {
+    width: clamp(130px, 55vw, 200px);
+    height: clamp(130px, 55vw, 200px);
+  }
+
+  .td-box-2 {
+    border-radius: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   Hormati preferensi "kurangi gerakan"
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .td-box-1,
+  .td-box-2,
+  .td-badge,
+  .td-box-2-shine,
+  .td-stars {
+    animation: none !important;
+  }
+}
