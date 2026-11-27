@@ -1,4 +1,4 @@
-/* Entry point semua halaman publik. Lokasi: frontend/assets/js/main.js
+/* Entry point semua halaman publik. Lokasi: frontend/pages/landing/assets/js/main.js
    Urutan: pasang layout -> render data -> aktifkan efek. */
 (function () {
   'use strict';

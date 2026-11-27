@@ -1,4 +1,4 @@
-/* Supabase client (hanya anon key). Lokasi: frontend/assets/js/supabase-client.js
+/* Supabase client (hanya anon key). Lokasi: frontend/pages/landing/assets/js/supabase-client.js
    Bergantung pada: @supabase/supabase-js v2 (CDN, global `supabase`) dan config.js. */
 (function () {
   'use strict';

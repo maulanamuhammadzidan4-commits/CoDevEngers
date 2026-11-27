@@ -1,3 +1,6 @@
+/* CoDevEnger - Guest Experience theme
+   Lokasi: frontend/pages/landing/assets/css/theme.css
+   Berisi animasi & efek yang tidak praktis ditulis dengan utility Tailwind. */
 html {
   scroll-behavior: smooth
 }

@@ -1,4 +1,4 @@
-/* Render daftar kartu ke container [data-list]. Lokasi: frontend/assets/js/render.js
+/* Render daftar kartu ke container [data-list]. Lokasi: frontend/pages/landing/assets/js/render.js
    Semua teks di-escape; URL gambar hanya https (data dari database dianggap tidak tepercaya). */
 (function () {
   'use strict';
