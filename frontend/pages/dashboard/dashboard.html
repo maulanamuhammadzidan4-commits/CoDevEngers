@@ -17,31 +17,23 @@
     .mi[aria-current=page]{@apply bg-brand text-white}
     th{@apply px-3 py-2 text-left text-xs font-semibold text-mute}
     td{@apply px-3 py-2.5 text-sm}
-    .search-box .search-input {
-  padding-left: 44px !important;
-  padding-right: 12px;
-}
-
-.search-box .search-icon {
-  left: 12px;
-  pointer-events: none;
-}
   </style>
   <link rel="stylesheet" href="assets/css/dashboard.css">
   <link rel="stylesheet" href="../landing/assets/css/teachers-day.css">
 </head>
 <body class="bg-ink font-sans text-snow" data-td-popup-target="../landing/teachers-day.html">
-  <aside id="side" class="fixed inset-y-0 left-0 z-40 flex w-72 -translate-x-full flex-col border-r border-line bg-panel transition-transform lg:translate-x-0" aria-label="Menu utama">
-    <a href="dashboard.html#/home" class="flex h-[72px] shrink-0 items-center gap-2.5 px-5 text-snow no-underline">
+  <aside id="side" class="fixed inset-y-0 left-0 z-40 flex w-72 max-w-[86vw] flex-col border-r border-line bg-panel lg:max-w-none" aria-label="Menu utama">
+    <a href="dashboard.html#/home" class="flex h-[72px] shrink-0 items-center gap-2.5 pl-5 pr-16 text-snow no-underline lg:pr-5">
       <svg width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Logo CoDevEnger"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="#C81D25"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="rgb(var(--panel))"/></svg>
       <span class="text-xl font-bold">CoDevEnger</span></a>
+    <button type="button" class="bg2 absolute right-3 top-3.5 !px-3 lg:!hidden" data-act="menu-close" aria-label="Tutup menu"><i data-lucide="x"></i></button>
     <nav id="menu" class="flex-1 space-y-1 overflow-y-auto px-3 pb-6"></nav>
   </aside>
-  <div id="scrim" class="fixed inset-0 z-30 hidden bg-black/60 lg:hidden" data-act="menu-close"></div>
-  <div class="lg:pl-72">
-    <header class="sticky top-0 z-20 flex items-center gap-2 border-b border-line bg-panel/95 px-3 py-3 backdrop-blur sm:gap-3 sm:px-6">
-      <button class="bg2 !px-3 lg:hidden" data-act="menu-open" aria-label="Buka menu"><i data-lucide="menu"></i></button>
-  <label class="search-box relative min-w-0 flex-1">
+  <div id="scrim" class="fixed inset-0 z-30 bg-black/60 lg:hidden" data-act="menu-close"></div>
+  <div id="shell" class="lg:pl-72">
+    <header class="sticky top-0 z-20 flex items-center gap-1.5 border-b border-line bg-panel/95 px-3 py-3 backdrop-blur sm:gap-3 sm:px-6">
+      <button class="bg2 shrink-0 !px-3 lg:!hidden" data-act="menu-toggle" aria-label="Buka menu" aria-controls="side" aria-expanded="false"><i data-lucide="menu"></i></button>
+  <label class="search-box relative min-w-0 flex-1 sm:max-w-md">
   <span class="sr-only">Pencarian</span>
 
   <i data-lucide="search"
@@ -52,13 +44,14 @@
     id="q" type="search" placeholder="Pencarian..." class="inp search-input" autocomplete="off"
   >
 </label>
-      <script>document.write(CDE_THEME.btn())</script>
-      <button class="bg2 !rounded-full !px-3 max-sm:hidden" data-act="bell" aria-label="Notifikasi"><i data-lucide="bell"></i></button>
+      <script>document.write(CDE_THEME.btn("ml-auto"))</script>
+      <button class="bg2 !rounded-full !px-3 shrink-0 max-sm:!hidden" data-act="bell" aria-label="Notifikasi"><i data-lucide="bell"></i></button>
       <div class="relative">
-        <button id="pbtn" class="flex min-h-11 items-center gap-2 rounded-full border border-line bg-ink py-1 pl-1 pr-3 text-left" data-act="profile" aria-haspopup="true" aria-expanded="false">
+        <button id="pbtn" class="flex min-h-11 shrink-0 items-center gap-2 rounded-full border border-line bg-ink py-1 pl-1 pr-1 text-left sm:pr-3" data-act="profile" aria-haspopup="true" aria-expanded="false">
           <span id="avatar" class="grid h-9 w-9 place-items-center rounded-full bg-brand text-sm font-bold text-white">S</span>
           <span class="hidden leading-tight sm:block"><b id="uname" class="block text-sm"></b><span id="urole" class="text-xs text-mute"></span></span></button>
-        <div id="pmenu" class="absolute right-0 top-14 hidden w-56 rounded-2xl border border-line bg-panel p-2 shadow-xl">
+        <div id="pmenu" class="absolute right-0 top-14 z-10 w-56 rounded-2xl border border-line bg-panel p-2 shadow-xl">
+          <button class="mi w-full sm:!hidden" data-act="bell"><i data-lucide="bell"></i>Notifikasi</button>
           <p class="px-3 py-1 text-xs text-mute">Peran (simulasi)</p>
           <button class="mi w-full" data-act="role" data-v="siswa">Siswa</button>
           <button class="mi w-full" data-act="role" data-v="admin">Admin</button>
@@ -66,10 +59,10 @@
           <a class="mi" href="login.html">Keluar</a></div>
       </div>
     </header>
-    <main id="view" class="mx-auto max-w-[1200px] p-4 sm:p-6" tabindex="-1"></main>
+    <main id="view" class="mx-auto max-w-[1200px] p-4 pb-10 sm:p-6 sm:pb-12" tabindex="-1"></main>
   </div>
-  <div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4" data-act="modal-bg"><div id="mbody" role="dialog" aria-modal="true" class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-line bg-panel p-5"></div></div>
-  <div id="toast" role="status" class="fixed bottom-4 left-1/2 z-[60] hidden -translate-x-1/2 rounded-xl bg-snow px-4 py-2.5 text-sm font-medium text-ink shadow-lg"></div>
+  <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 sm:p-4" data-act="modal-bg"><div id="mbody" role="dialog" aria-modal="true" class="w-full max-w-md overflow-y-auto rounded-2xl border border-line bg-panel p-4 sm:p-5"></div></div>
+  <div id="toast" role="status" class="fixed z-[60] rounded-xl bg-snow px-4 py-2.5 text-sm font-medium text-ink shadow-lg"></div>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
   <script src="assets/js/dashboard.js"></script>
   <script src="../landing/assets/js/teachers-day.js"></script>

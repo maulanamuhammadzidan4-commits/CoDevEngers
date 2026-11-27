@@ -17,3 +17,9 @@ Di dashboard, kotak misterius Teachers' Day muncul setiap 30 detik. Tombol X men
 Integrasi backend: ganti `load()`/`save()` di `assets/js/dashboard.js` dengan pemanggilan API. Peran siswa/admin di frontend hanya mengatur tampilan; hak akses sebenarnya harus di backend (RLS). Jangan simpan secret key di frontend.
 
 Tautan ke halaman publik mengarah ke `../landing/index.html` dan `../landing/anggota.html`.
+
+## Animasi & responsivitas
+- Animasi masuk (`.enter`, `.stagger`) hanya dipasang saat pindah halaman (hash route); render karena filter/pencarian tidak mengulang animasi.
+- Sidebar, scrim, dropdown profil, modal, dan toast memakai kelas state `.is-open` / `.is-show` (lihat `dashboard.css`), bukan `hidden`.
+- Transisi tema: `theme.js` memasang kelas `theme-anim` sementara saat tombol tema ditekan. Kunci `cde_theme` tidak berubah.
+- Semua animasi dimatikan otomatis oleh `prefers-reduced-motion`.
