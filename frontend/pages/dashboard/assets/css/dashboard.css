@@ -1,0 +1,122 @@
+/* Gaya dashboard CoDevEnger (token tema terang/gelap). Lokasi: frontend/pages/dashboard/assets/css/dashboard.css
+   Dipisah dari theme.css milik halaman pengunjung agar tidak bentrok saat merge. */
+/* ---------- Token tema (dipakai Tailwind lewat rgb(var(--x)/<alpha-value>)) ----------
+   Merah #C81D25 dan biru CoDevEnger tetap; hanya turunan teks yang disesuaikan agar kontras di mode terang. */
+:root{--ease:cubic-bezier(.22,1,.36,1);--sh:0 12px 28px -14px rgb(0 0 0/.65);color-scheme:dark;--ink:10 17 40;--panel:17 27 61;--line:34 48 95;--snow:244 246 255;--mute:170 180 212;--sky:125 184 255;--glow:255 90 95;--ok:61 220 151;--warn:255 209 102;--err:255 110 115}
+[data-theme="light"]{--sh:0 12px 28px -14px rgb(10 17 40/.28);color-scheme:light;--ink:238 242 251;--panel:255 255 255;--line:203 213 238;--snow:10 17 40;--mute:74 86 120;--sky:28 95 191;--glow:200 29 37;--ok:17 122 67;--warn:138 90 0;--err:190 24 33}
+[data-theme="dark"] .i-sun,[data-theme="light"] .i-moon{display:none}
+.themebtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid rgb(var(--line));background:rgb(var(--panel));color:rgb(var(--sky));cursor:pointer;transition:border-color .25s,transform .25s}
+.themebtn:hover{border-color:#4DA3FF;transform:translateY(-1px)}
+:focus-visible{outline:2px solid #4DA3FF;outline-offset:2px}
+
+/* =====================================================================
+   Animasi, transisi & responsivitas (ditambahkan). Semua animasi hanya memakai
+   transform/opacity agar tidak menggeser layout, dan dimatikan oleh prefers-reduced-motion.
+   ===================================================================== */
+/* Anti-flash: warna dasar tersedia sebelum Tailwind CDN selesai membuat stylesheet */
+html{background:rgb(var(--ink));scrollbar-gutter:stable;-webkit-text-size-adjust:100%}
+body{background:rgb(var(--ink));color:rgb(var(--snow));min-width:320px}
+html.no-scroll{overflow:hidden}
+#shell{overflow-x:clip}
+a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+
+/* Transisi tema: kelas dipasang sementara oleh theme.js saat tombol tema ditekan (bukan saat load) */
+html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::after{
+  transition-property:background-color,border-color,color,fill,stroke,box-shadow!important;
+  transition-duration:.3s!important;transition-timing-function:ease!important;transition-delay:0s!important}
+html.theme-anim .themebtn svg{animation:cde-spin-in .4s var(--ease)}
+
+/* ---------- Keyframes (hanya keyframe "from": nilai akhir = gaya normal elemen) ---------- */
+@keyframes cde-rise{from{opacity:0;transform:translateY(14px)}}
+@keyframes cde-img{from{opacity:0;transform:scale(1.05)}}
+@keyframes cde-spin-in{from{opacity:0;transform:rotate(-70deg) scale(.5)}}
+
+/* ---------- Animasi masuk halaman: kelas .enter hanya dipasang saat pindah halaman ---------- */
+.enter>*{--base:0ms}
+.enter>*:nth-child(2){--base:70ms}.enter>*:nth-child(3){--base:140ms}.enter>*:nth-child(4){--base:210ms}
+.enter>*:nth-child(n+5){--base:280ms}
+.enter>*:not(.stagger),.enter .stagger>*{animation:cde-rise .5s var(--ease) backwards;animation-delay:calc(var(--base) + var(--i,0)*55ms)}
+.stagger>*:nth-child(2){--i:1}.stagger>*:nth-child(3){--i:2}.stagger>*:nth-child(4){--i:3}.stagger>*:nth-child(5){--i:4}
+.stagger>*:nth-child(6){--i:5}.stagger>*:nth-child(7){--i:6}.stagger>*:nth-child(n+8){--i:7}
+.enter .hero-img{animation:cde-img .9s var(--ease) backwards;animation-delay:.1s}
+#view:focus{outline:none}
+
+/* ---------- Card & komponen interaktif ---------- */
+.lift{transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s}
+.badge{transition:transform .2s var(--ease),background-color .2s,color .2s}
+.album-bg{transition:transform .5s var(--ease)}
+@media (hover:hover){
+  .lift:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:rgb(var(--sky)/.55)}
+  .lift:hover .badge{transform:scale(1.05)}
+  .lift:hover .album-bg{transform:scale(1.07)}
+}
+.bp,.bg2,.mi,.inp,.themebtn,#pbtn{transition:transform .15s var(--ease),background-color .2s,border-color .2s,color .2s,filter .2s,box-shadow .2s}
+.bp:active,.bg2:active,.themebtn:active,#pbtn:active{transform:scale(.96)}
+.mi:active{transform:scale(.98)}
+@media (hover:hover){.bp:hover{box-shadow:0 8px 18px -8px rgb(200 29 37/.7)}.mi:hover{transform:translateX(3px)}.mi[aria-current=page]:hover{transform:none}}
+.mi svg{transition:transform .2s var(--ease)}
+.mi:hover svg{transform:scale(1.12)}
+.inp:focus{border-color:rgb(var(--sky));box-shadow:0 0 0 3px rgb(var(--sky)/.18);outline:none}
+.inp{max-width:100%;min-width:0}
+.themebtn{flex-shrink:0}
+
+/* ---------- Pencarian header ---------- */
+.search-box .search-input{padding-left:2.75rem;padding-right:.75rem;-webkit-appearance:none;appearance:none}
+.search-box .search-icon{left:.75rem;pointer-events:none}
+
+/* ---------- Sidebar (drawer di < 1024px, tetap di desktop) ---------- */
+#scrim{opacity:0;visibility:hidden;transition:opacity .28s ease,visibility 0s linear .28s;-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+#scrim.is-open{opacity:1;visibility:visible;transition-delay:0s}
+@media (max-width:1023.98px){
+  #side{transform:translateX(-100%);visibility:hidden;transition:transform .32s var(--ease),visibility 0s linear .32s;overscroll-behavior:contain}
+  #side.is-open{transform:none;visibility:visible;transition-delay:0s;box-shadow:0 0 48px rgb(0 0 0/.45)}
+}
+
+/* ---------- Dropdown profil ---------- */
+#pmenu{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-6px) scale(.96);transform-origin:top right;
+  transition:opacity .16s ease,transform .18s var(--ease),visibility 0s linear .18s}
+#pmenu.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:none;transition-delay:0s}
+
+/* ---------- Modal ---------- */
+#modal{opacity:0;visibility:hidden;transition:opacity .2s ease,visibility 0s linear .2s}
+#modal.is-open{opacity:1;visibility:visible;transition-delay:0s}
+#mbody{transform:translateY(10px) scale(.95);transition:transform .25s var(--ease);max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);overscroll-behavior:contain}
+#modal.is-open #mbody{transform:none}
+
+/* ---------- Toast ---------- */
+#toast{left:50%;bottom:calc(1rem + env(safe-area-inset-bottom,0px));width:max-content;max-width:calc(100vw - 2rem);text-align:center;
+  opacity:0;pointer-events:none;transform:translate(-50%,14px) scale(.97);transition:opacity .22s ease,transform .26s var(--ease)}
+#toast.is-show{opacity:1;transform:translate(-50%,0) scale(1)}
+
+/* ---------- Hero beranda ---------- */
+.hero{position:relative;overflow:hidden;min-height:240px}
+.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#05070f 25%,rgb(5 7 15/.15));pointer-events:none}
+.hero-copy{position:relative;z-index:2;max-width:100%}
+.hero-img{position:absolute;right:0;top:0;height:100%;width:100%;object-fit:cover;object-position:50% 28%;opacity:.45;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 45%);mask-image:linear-gradient(to right,transparent,#000 45%)}
+@media (min-width:640px){
+  .hero{min-height:300px}.hero::before{display:none}
+  .hero-copy{max-width:min(58%,560px)}
+  .hero-img{width:48%;opacity:1;-webkit-mask-image:linear-gradient(to right,transparent,#000 40%);mask-image:linear-gradient(to right,transparent,#000 40%)}
+}
+
+/* ---------- Tabel: scroll horizontal dengan petunjuk bayangan di tepi ---------- */
+.tbl-wrap{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  background:linear-gradient(to right,rgb(var(--panel)),rgb(var(--panel))) left center/24px 100% no-repeat local,
+    linear-gradient(to left,rgb(var(--panel)),rgb(var(--panel))) right center/24px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%,rgb(0 0 0/.28),transparent) left center/12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%,rgb(0 0 0/.28),transparent) right center/12px 100% no-repeat scroll}
+.tbl-wrap th,.tbl-wrap td{white-space:nowrap}
+.tbl-wrap td.wrap{white-space:normal;min-width:9rem}
+
+/* ---------- Mobile: cegah auto-zoom iOS saat fokus input ---------- */
+@media (max-width:639.98px){
+  input.inp,select.inp,textarea.inp{font-size:16px}
+  .search-box .search-input{padding-left:2.4rem;padding-right:.5rem}
+  .search-box .search-icon{left:.65rem;width:1.1rem;height:1.1rem}
+}
+
+/* ---------- Aksesibilitas gerak ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
+}
