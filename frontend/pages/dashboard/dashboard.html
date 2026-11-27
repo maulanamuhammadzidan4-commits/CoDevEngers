@@ -19,8 +19,9 @@
     td{@apply px-3 py-2.5 text-sm}
   </style>
   <link rel="stylesheet" href="assets/css/dashboard.css">
+  <style>.auth-checking #side,.auth-checking #shell,.auth-checking #modal,.auth-checking #toast{visibility:hidden}</style>
 </head>
-<body class="bg-ink font-sans text-snow">
+<body class="auth-checking bg-ink font-sans text-snow">
   <aside id="side" class="fixed inset-y-0 left-0 z-40 flex w-72 max-w-[86vw] flex-col border-r border-line bg-panel lg:max-w-none" aria-label="Menu utama">
     <a href="dashboard.html#/home" class="flex h-[72px] shrink-0 items-center gap-2.5 pl-5 pr-16 text-snow no-underline lg:pr-5">
       <svg width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="Logo CoDevEnger"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" fill="#C81D25"/><polygon points="16,8 22,11.5 22,20.5 16,24 10,20.5 10,11.5" fill="rgb(var(--panel))"/></svg>
@@ -51,11 +52,8 @@
           <span class="hidden leading-tight sm:block"><b id="uname" class="block text-sm"></b><span id="urole" class="text-xs text-mute"></span></span></button>
         <div id="pmenu" class="absolute right-0 top-14 z-10 w-56 rounded-2xl border border-line bg-panel p-2 shadow-xl">
           <button class="mi w-full sm:!hidden" data-act="bell"><i data-lucide="bell"></i>Notifikasi</button>
-          <p class="px-3 py-1 text-xs text-mute">Peran (simulasi)</p>
-          <button class="mi w-full" data-act="role" data-v="siswa">Siswa</button>
-          <button class="mi w-full" data-act="role" data-v="admin">Admin</button>
           <a class="mi" href="../landing/index.html">Mode Pengunjung</a>
-          <a class="mi" href="login.html">Keluar</a></div>
+          <button class="mi w-full text-err" data-act="logout">Keluar</button></div>
       </div>
     </header>
     <main id="view" class="mx-auto max-w-[1200px] p-4 pb-10 sm:p-6 sm:pb-12" tabindex="-1"></main>
@@ -63,6 +61,8 @@
   <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-3 sm:p-4" data-act="modal-bg"><div id="mbody" role="dialog" aria-modal="true" class="w-full max-w-md overflow-y-auto rounded-2xl border border-line bg-panel p-4 sm:p-5"></div></div>
   <div id="toast" role="status" class="fixed z-[60] rounded-xl bg-snow px-4 py-2.5 text-sm font-medium text-ink shadow-lg"></div>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/dashboard.js"></script>
 </body>
 </html>
