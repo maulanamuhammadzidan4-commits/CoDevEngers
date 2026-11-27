@@ -55,14 +55,14 @@
     window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   }
 
-  /* ---------- Backsound: file audio (config.MUSIC_URL), fallback ke musik sintesis ----------
+  /* ---------- Backsound: file audio (config.MUSIC_URL) ----------
      Browser memblokir autoplay, jadi: coba putar saat halaman dibuka; jika ditolak, mulai otomatis
      pada interaksi pertama pengunjung (klik/tap/tombol keyboard). Posisi lagu dilanjutkan antar halaman. */
   function initMusic() {
     const btn = document.getElementById('music-btn'), label = document.getElementById('music-label');
     if (!btn) return;
     const cfg = window.APP_CONFIG || {};
-    const SRC = cfg.MUSIC_URL || 'assets/audio/ini-abadi.mp3';
+    const SRC = cfg.MUSIC_URL || 'assets/audio/background-music.mp3';
     const VOL = 0.35, K_ON = 'cde_music_on', K_MUTED = 'cde_music_muted', K_T = 'cde_music_t';
     const store = {
       get: (k) => { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
@@ -71,7 +71,7 @@
     };
     const audio = new Audio();
     audio.src = SRC; audio.loop = true; audio.preload = 'metadata'; audio.volume = 0;
-    let on = false, fade = null, synth = null;
+    let on = false, fade = null;
 
     const ui = (v) => { on = v; btn.setAttribute('aria-pressed', String(v)); label.textContent = v ? 'Musik: Hidup' : 'Musik: Mati'; };
     function fadeTo(target, ms, done) {
@@ -81,38 +81,6 @@
         i++; audio.volume = Math.min(1, Math.max(0, from + ((target - from) * i) / steps));
         if (i >= steps) { clearInterval(fade); if (done) done(); }
       }, 50);
-    }
-
-    /* --- fallback sintesis (dipakai hanya jika file audio gagal dimuat) --- */
-    function startSynth() {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC || synth) return;
-      const ac = new AC(), master = ac.createGain();
-      master.gain.value = 0; master.connect(ac.destination); master.gain.linearRampToValueAtTime(0.22, ac.currentTime + 1.5);
-      const delay = ac.createDelay(1.0); delay.delayTime.value = 0.42;
-      const fb = ac.createGain(); fb.gain.value = 0.38; const wet = ac.createGain(); wet.gain.value = 0.5;
-      delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(master);
-      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 500; lp.connect(master);
-      [55, 82.41, 110].forEach((f, i) => {
-        const o = ac.createOscillator(), g = ac.createGain(); o.type = i === 1 ? 'triangle' : 'sine'; o.frequency.value = f;
-        g.gain.value = i === 2 ? 0.25 : 0.4; o.connect(g); g.connect(lp); o.start();
-      });
-      const scale = [220, 261.63, 293.66, 329.63, 392, 440, 523.25];
-      const pattern = [0, 2, 4, 5, 4, 2, 3, 1, 0, 2, 4, 6, 5, 4, 2, 1, 0, 3, 4, 5, 6, 5, 4, 3, 2, 4, 5, 4, 3, 2, 1, 0];
-      let step = 0;
-      const tick = () => {
-        const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
-        o.type = 'triangle'; o.frequency.value = scale[pattern[step % pattern.length]];
-        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.18, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0008, t + 1.3);
-        o.connect(g); g.connect(master); g.connect(delay); o.start(t); o.stop(t + 1.4); step++;
-      };
-      tick(); synth = { ac, master, timer: setInterval(tick, 430) };
-    }
-    function stopSynth() {
-      if (!synth) return;
-      const s = synth; synth = null; clearInterval(s.timer);
-      s.master.gain.linearRampToValueAtTime(0, s.ac.currentTime + 0.4);
-      setTimeout(() => s.ac.close().catch(() => { }), 600);
     }
 
     /* --- kontrol utama --- */
@@ -128,20 +96,19 @@
         return true;
       } catch (e) {
         if (e && e.name === 'NotAllowedError') return false;   // autoplay diblokir -> tunggu interaksi
-        console.warn('[CoDevEnger] File musik gagal dimuat, memakai musik sintesis.', e);
-        startSynth(); ui(true); store.set(K_ON, '1'); store.del(K_MUTED);
-        return true;
+        console.error('[CoDevEnger] File musik gagal dimuat.', e);
+        return false;
       }
     }
     function stop() {
       ui(false); store.del(K_ON); store.set(K_MUTED, '1');
-      stopSynth(); fadeTo(0, 500, () => audio.pause());
+      fadeTo(0, 500, () => audio.pause());
     }
 
     btn.addEventListener('click', () => { if (on) stop(); else start(); });
 
     // simpan posisi lagu agar halaman berikutnya melanjutkan; jeda saat tab disembunyikan
-    window.addEventListener('pagehide', () => { if (on) store.set(K_T, String(audio.currentTime || 0)); audio.pause(); stopSynth(); });
+    window.addEventListener('pagehide', () => { if (on) store.set(K_T, String(audio.currentTime || 0)); audio.pause(); });
     document.addEventListener('visibilitychange', () => {
       if (!on) return;
       if (document.hidden) audio.pause(); else audio.play().catch(() => { });
