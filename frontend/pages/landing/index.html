@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="id" data-intro>
+
+<head>
+  <title>CoDevEnger — Beranda Pengunjung</title>
+  <meta name="description" content="Kenali kelas kami: informasi publik, profil anggota, galeri, dan Ruang Wali Kelas.">
+  <script>document.documentElement.classList.add('js'); try { if (document.documentElement.hasAttribute('data-intro') && !sessionStorage.getItem('cde_intro')) document.documentElement.classList.add('intro-on') } catch (e) { }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { ink: '#0A1128', panel: '#111B3D', line: '#22305F', snow: '#F4F6FF', mute: '#AAB4D4', sky: '#7DB8FF', brand: '#C81D25', glow: '#FF5A5F' }, fontFamily: { display: ['"Space Grotesk"', 'sans-serif'], sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <!-- Teachers' Day Surprise – pop-up kotak misterius -->
+  <link rel="stylesheet" href="assets/css/teachers-day.css">
+</head>
+
+<body class="overflow-x-clip bg-ink font-sans leading-relaxed text-snow" data-page="home">
+  <div data-slot="intro"></div>
+  <div data-slot="nav"></div>
+  <div data-slot="overlays"></div>
+  <header class="relative overflow-hidden">
+    <div data-slot="hero-decor"></div>
+    <div class="relative mx-auto max-w-[1120px] px-4 pb-[150px] pt-12 sm:px-6 sm:pt-[72px]">
+      <span
+        class="anim-in d1 inline-block rounded-full border border-[#2A4A94] px-3.5 py-1.5 text-[13px] font-semibold uppercase tracking-widest text-sky">Mode
+        Pengunjung</span>
+      <h1 class="anim-in d2 mb-5 mt-6 max-w-[640px] font-display text-[clamp(38px,9vw,64px)] font-bold leading-[1.05]">
+        Satu kelas,<br>banyak <span class="glowtxt text-glow">pahlawan</span>.</h1>
+      <p class="anim-in d3 mb-8 max-w-[520px] text-[clamp(16px,2.4vw,19px)] text-[#C9D2F0]">Kenali CoDevEnger kelas yang
+        saling jaga, saling bantu, dan terus berkarya bersama.</p>
+      <div class="hero-cta flex flex-wrap gap-3 anim-in d4">
+        <a class="btn rounded-lg bg-brand px-7 py-3.5 font-semibold text-white no-underline" href="galeri.html">Lihat
+          Galeri</a>
+        <a class="btn rounded-lg border-[1.5px] border-[#4DA3FF] px-7 py-3 font-semibold text-[#B5D6FF] no-underline"
+          href="wali-kelas.html">Ruang Wali Kelas</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section id="keunggulan" class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px] relative">
+      <div data-slot="corner-web" data-dur="14"></div>
+      <div class="flex flex-wrap items-center justify-between gap-3"><span
+          class="text-[13px] font-semibold uppercase tracking-widest text-sky">Keunggulan Kelas</span><a
+          class="nl text-sm text-sky no-underline" href="keunggulan.html">Lihat semua →</a></div>
+      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-0 mt-2">Kekuatan yang membuat kami
+        solid</h2>
+      <div class="mb-8"></div>
+      <div data-list="features" data-limit="4" class="flex flex-wrap gap-5"></div>
+    </section>
+    <section id="anggota" class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]">
+
+      <div class="flex flex-wrap items-center justify-between gap-3"><span
+          class="text-[13px] font-semibold uppercase tracking-widest text-sky">Profil Anggota</span><a
+          class="nl text-sm text-sky no-underline" href="anggota.html">Lihat semua →</a></div>
+      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-0 mt-2">Kenalan dengan kami</h2>
+      <p class="mb-8 mt-2 max-w-[560px] text-mute">Hanya profil yang sudah disetujui anggota yang ditampilkan di sini.
+      </p>
+      <div data-list="members" data-limit="4" class="flex flex-wrap gap-5"></div>
+    </section>
+    <section id="galeri" class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]">
+
+      <div class="flex flex-wrap items-center justify-between gap-3"><span
+          class="text-[13px] font-semibold uppercase tracking-widest text-sky">Galeri</span><a
+          class="nl text-sm text-sky no-underline" href="galeri.html">Lihat semua →</a></div>
+      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-0 mt-2">Momen kelas kami</h2>
+      <div class="mb-8"></div>
+      <div data-list="gallery" data-limit="6" class="flex flex-wrap gap-5"></div>
+    </section>
+    <section id="wali-kelas" class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]">
+      <div
+        class="relative overflow-hidden rounded-[20px] border border-line bg-panel p-[clamp(28px,6vw,48px)_clamp(20px,4vw,32px)]">
+        <div data-slot="corner-web" data-dur="10"></div>
+        <span class="text-[13px] font-semibold uppercase tracking-widest text-glow">Ruang Wali Kelas · Hari Guru</span>
+        <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-0 mt-5 max-w-[640px]">Terima
+          kasih, Bapak Fikri Alfan Fasha S.Tr.Kom, sudah membimbing kami.</h2>
+        <p class="mb-0 mt-5 max-w-[560px] text-[#C9D2F0]">Kumpulan ucapan dan kenangan dari seluruh siswa untuk guru
+          yang sudah mengajarkan kami pemrograman.</p>
+        <div data-list="notes" data-limit="3" class="mt-8 flex flex-wrap gap-4"></div>
+        <a class="btn mt-6 inline-block rounded-lg border-[1.5px] border-[#4DA3FF] px-7 py-3 font-semibold text-[#B5D6FF] no-underline"
+          href="wali-kelas.html">Buka Ruang Wali Kelas</a>
+      </div>
+    </section>
+    <section class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px] text-center">
+      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-3 text-[clamp(24px,5vw,32px)]">
+        Anggota kelas? Masuk untuk fitur lengkap.</h2>
+      <p class="mb-6 text-mute">Absensi, tugas, jadwal, dan lainnya tersedia setelah login.</p>
+      <a class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline"
+        href="../dashboard/login.html">Masuk Anggota</a>
+    </section>
+  </main>
+  <div data-slot="footer"></div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/config.js" onerror="void 0"></script>
+  <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script src="assets/js/render.js"></script>
+  <script src="assets/js/effects.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- Teachers' Day Surprise – pop-up kotak misterius (harus setelah main.js) -->
+  <script src="assets/js/teachers-day.js"></script>
+</body>
+
+</html>

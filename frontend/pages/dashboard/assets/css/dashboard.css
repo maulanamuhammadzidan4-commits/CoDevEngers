@@ -1,0 +1,11 @@
+/* Gaya dashboard CoDevEnger (token tema terang/gelap). Lokasi: frontend/pages/dashboard/assets/css/dashboard.css
+   Dipisah dari theme.css milik halaman pengunjung agar tidak bentrok saat merge. */
+/* ---------- Token tema (dipakai Tailwind lewat rgb(var(--x)/<alpha-value>)) ----------
+   Merah #C81D25 dan biru CoDevEnger tetap; hanya turunan teks yang disesuaikan agar kontras di mode terang. */
+:root{color-scheme:dark;--ink:10 17 40;--panel:17 27 61;--line:34 48 95;--snow:244 246 255;--mute:170 180 212;--sky:125 184 255;--glow:255 90 95;--ok:61 220 151;--warn:255 209 102;--err:255 110 115}
+[data-theme="light"]{color-scheme:light;--ink:238 242 251;--panel:255 255 255;--line:203 213 238;--snow:10 17 40;--mute:74 86 120;--sky:28 95 191;--glow:200 29 37;--ok:17 122 67;--warn:138 90 0;--err:190 24 33}
+body{transition:background-color .25s,color .25s}
+[data-theme="dark"] .i-sun,[data-theme="light"] .i-moon{display:none}
+.themebtn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid rgb(var(--line));background:rgb(var(--panel));color:rgb(var(--sky));cursor:pointer;transition:border-color .25s,transform .25s}
+.themebtn:hover{border-color:#4DA3FF;transform:translateY(-1px)}
+:focus-visible{outline:2px solid #4DA3FF;outline-offset:2px}
