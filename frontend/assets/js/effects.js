@@ -1,5 +1,3 @@
-/* Efek interaksi: scroll reveal, tilt kartu, animasi scroll mengerucut, musik, intro.
-   Lokasi: frontend/assets/js/effects.js. Tanpa library; semua menghormati "kurangi gerakan". */
 (function () {
   'use strict';
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -83,7 +81,7 @@
         o.connect(g); g.connect(lp); o.start();
       });
       const scale = [220, 261.63, 293.66, 329.63, 392, 440, 523.25];
-      const pattern = [0,2,4,5,4,2,3,1, 0,2,4,6,5,4,2,1, 0,3,4,5,6,5,4,3, 2,4,5,4,3,2,1,0];
+      const pattern = [0, 2, 4, 5, 4, 2, 3, 1, 0, 2, 4, 6, 5, 4, 2, 1, 0, 3, 4, 5, 6, 5, 4, 3, 2, 4, 5, 4, 3, 2, 1, 0];
       let step = 0;
       const tick = () => {
         const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
@@ -98,7 +96,7 @@
     function stop() {
       clearInterval(timer); timer = null;
       const ctx = ac; ac = null;
-      if (ctx) { master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4); setTimeout(() => ctx.close().catch(() => {}), 600); }
+      if (ctx) { master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.4); setTimeout(() => ctx.close().catch(() => { }), 600); }
     }
     btn.addEventListener('click', () => {
       const on = btn.getAttribute('aria-pressed') !== 'true';

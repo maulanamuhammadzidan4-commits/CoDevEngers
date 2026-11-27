@@ -1,6 +1,3 @@
-/* CoDevEnger - Guest Experience theme
-   Lokasi: frontend/assets/css/theme.css
-   Berisi animasi & efek yang tidak praktis ditulis dengan utility Tailwind. */
 html {
   scroll-behavior: smooth
 }
@@ -640,5 +637,57 @@ body {
 
   .intro {
     display: none !important
+  }
+}
+
+/* =================================
+   CODEVENGER - GALLERY GRID
+================================= */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+/* Gallery Card */
+.gallery-grid>* {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #22305F;
+  border-radius: 16px;
+  background: #111B3D;
+}
+
+/* Gallery Images */
+.gallery-grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  transition: transform 0.4s ease;
+}
+
+/* Hover Effect */
+.gallery-grid>*:hover img {
+  transform: scale(1.04);
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }

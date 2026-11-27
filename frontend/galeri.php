@@ -18,29 +18,84 @@
   <div data-slot="intro"></div>
   <div data-slot="nav"></div>
   <div data-slot="overlays"></div>
-  <header class="relative overflow-hidden">
+  
+<header class="relative overflow-hidden">
+
     <div data-slot="hero-decor"></div>
+
     <div class="relative mx-auto max-w-[1120px] px-4 pb-[150px] pt-12 sm:px-6 sm:pt-[72px]">
-      <span class="anim-in d1 inline-block rounded-full border border-[#2A4A94] px-3.5 py-1.5 text-[13px] font-semibold uppercase tracking-widest text-sky">Galeri</span>
-      <h1 class="anim-in d2 mb-5 mt-6 max-w-[640px] font-display text-[clamp(38px,9vw,64px)] font-bold leading-[1.05]">Momen kelas <span class="glowtxt text-glow">kami</span>.</h1>
-      <p class="anim-in d3 mb-8 max-w-[520px] text-[clamp(16px,2.4vw,19px)] text-[#C9D2F0]">Dokumentasi kegiatan yang sudah dipublikasikan oleh admin kelas.</p>
-      
+
+        <span class="anim-in d1 inline-block rounded-full border border-[#2A4A94] px-3.5 py-1.5 text-[13px] font-semibold uppercase tracking-widest text-sky">
+            Galeri Kelas
+        </span>
+
+        <h1 class="anim-in d2 mb-5 mt-6 max-w-[640px] font-display text-[clamp(38px,9vw,64px)] font-bold leading-[1.05]">
+            Setiap momen, punya
+            <span class="glowtxt text-glow">cerita</span>.
+        </h1>
+
+        <p class="anim-in d3 mb-8 max-w-[520px] text-[clamp(16px,2.4vw,19px)] text-[#C9D2F0]">
+            Kumpulan perjalanan, kebersamaan, dan kenangan
+            yang menjadi bagian dari cerita CoDevEnger.
+        </p>
+
     </div>
-  </header>
-  <main>
-    <section id="daftar" class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]">
-      
-      <div class="flex flex-wrap items-center justify-between gap-3"><span class="text-[13px] font-semibold uppercase tracking-widest text-sky">Galeri</span></div>
-      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-0 mt-2">Album kegiatan</h2>
-      <p class="mb-8 mt-2 max-w-[560px] text-mute">Hanya album berstatus dipublikasikan yang tampil di sini.</p>
-      <div data-list="gallery" class="flex flex-wrap gap-5"></div>
+
+</header>
+
+<main>
+
+    <!-- Gallery Section -->
+    <section
+        id="daftar"
+        class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]"
+    >
+
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <span class="text-[13px] font-semibold uppercase tracking-widest text-sky">
+                Dokumentasi
+            </span>
+        </div>
+
+        <h2 class="reveal hl mb-0 mt-2 font-display text-[clamp(28px,6vw,40px)] leading-[1.15]">
+            Cerita di Balik Setiap Momen
+        </h2>
+
+        <p class="mb-8 mt-2 max-w-[560px] text-mute">
+            Rekaman perjalanan dan kebersamaan yang mengabadikan setiap cerita kami.
+        </p>
+
+        <div
+            data-list="gallery"
+            class="gallery-grid"
+        ></div>
+
     </section>
-    <section class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px] text-center">
-      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-3 text-[clamp(24px,5vw,32px)]">Ada pesan untuk wali kelas?</h2>
-      <p class="mb-6 text-mute">Kunjungi Ruang Wali Kelas, halaman khusus Hari Guru.</p>
-      <a class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline" href="wali-kelas.html">Ke Ruang Wali Kelas</a>
+
+    <!-- Closing Section -->
+    <section
+        class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 text-center sm:px-6 sm:pt-[72px]"
+    >
+
+        <h2 class="reveal hl mb-3 font-display text-[clamp(24px,5vw,32px)] leading-[1.15]">
+            Kenangan Terukir, Cerita Berlanjut
+        </h2>
+
+        <p class="mb-6 text-mute">
+            Sampaikan pesan dan apresiasi melalui ruang khusus untuk wali kelas kami.
+        </p>
+
+        <a
+            class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline"
+            href="wali-kelas.php"
+        >
+            Ruang Wali Kelas
+        </a>
+
     </section>
-  </main>
+
+</main>
+
   <div data-slot="footer"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/config.js" onerror="void 0"></script>

@@ -16,27 +16,62 @@
   <div data-slot="intro"></div>
   <div data-slot="nav"></div>
   <div data-slot="overlays"></div>
-  <header class="relative overflow-hidden">
+  
+<!-- Hero Section -->
+<header class="relative overflow-hidden">
     <div data-slot="hero-decor"></div>
     <div class="relative mx-auto max-w-[1120px] px-4 pb-[150px] pt-12 sm:px-6 sm:pt-[72px]">
-      <span class="anim-in d1 inline-block rounded-full border border-[#2A4A94] px-3.5 py-1.5 text-[13px] font-semibold uppercase tracking-widest text-sky">Profil Anggota</span>
-      <h1 class="anim-in d2 mb-5 mt-6 max-w-[640px] font-display text-[clamp(38px,9vw,64px)] font-bold leading-[1.05]">Kenalan dengan <span class="glowtxt text-glow">kami</span>.</h1>
-      <p class="anim-in d3 mb-8 max-w-[520px] text-[clamp(16px,2.4vw,19px)] text-[#C9D2F0]">Hanya profil yang sudah disetujui anggota yang ditampilkan di halaman publik ini.</p>
-      
+        <span class="anim-in d1 inline-block rounded-full border border-[#2A4A94] px-3.5 py-1.5 text-[13px] font-semibold uppercase tracking-widest text-sky">
+            Profil Anggota
+        </span>
+        <h1 class="anim-in d2 mb-5 mt-6 max-w-[640px] font-display text-[clamp(38px,9vw,64px)] font-bold leading-[1.05]">
+            Mengenal lebih dekat
+            <span class="glowtxt text-glow">anggota</span> kami.
+        </h1>
+        <p class="anim-in d3 mb-8 max-w-[520px] text-[clamp(16px,2.4vw,19px)] text-[#C9D2F0]">
+            Setiap anggota memiliki cerita, karakter, dan potensi
+            yang membentuk identitas CoDevEnger.
+        </p>
     </div>
-  </header>
-  <main>
-    <section id="daftar" class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]">
-      
-      <div class="flex flex-wrap items-center justify-between gap-3"><span class="text-[13px] font-semibold uppercase tracking-widest text-sky">Anggota</span></div>
-      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-0 mt-2">Para pahlawan kelas</h2>
-      <p class="mb-8 mt-2 max-w-[560px] text-mute">Foto dan biodata diambil dari data publik yang disetujui.</p>
-      <div data-list="members" class="flex flex-wrap gap-5"></div>
+</header>
+<!-- Main Content -->
+<main>
+    <!-- Members Section -->
+    <section
+        id="daftar"
+        class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px]">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <span class="text-[13px] font-semibold uppercase tracking-widest text-sky">
+                Anggota
+            </span>
+        </div>
+        <h2 class="reveal hl mb-0 mt-2 font-display text-[clamp(28px,6vw,40px)] leading-[1.15]">
+            Wajah di Balik CoDevEnger
+        </h2>
+        <p class="mb-8 mt-2 max-w-[560px] text-mute">
+            Kenali karakter dan profil setiap anggota yang telah
+            disetujui untuk ditampilkan.
+        </p>
+        <!-- Members Data -->
+        <div
+            data-list="members"
+            class="flex flex-wrap gap-5"></div>
     </section>
-    <section class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 sm:px-6 sm:pt-[72px] text-center">
-      <h2 class="reveal hl font-display text-[clamp(28px,6vw,40px)] leading-[1.15] mb-3 text-[clamp(24px,5vw,32px)]">Lihat momen kebersamaan kami</h2>
-      <p class="mb-6 text-mute">Dokumentasi kegiatan kelas ada di galeri.</p>
-      <a class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline" href="galeri.html">Buka Galeri</a>
+
+    <!-- Gallery Invitation -->
+    <section
+        class="mx-auto max-w-[1120px] px-4 pb-6 pt-12 text-center sm:px-6 sm:pt-[72px]">
+        <h2 class="reveal hl mb-3 font-display text-[clamp(24px,5vw,32px)] leading-[1.15]">
+            Jelajahi Cerita Perjalanan Kelas Kami
+        </h2>
+        <p class="mb-6 text-mute">
+            Temukan berbagai momen dan dokumentasi perjalanan kami melalui galeri.
+        </p>
+        <a
+            class="btn inline-block rounded-lg bg-brand px-8 py-3.5 font-semibold text-white no-underline"
+            href="galeri.html">
+            Jelajahi Galeri
+        </a>
     </section>
   </main>
   <div data-slot="footer"></div>
