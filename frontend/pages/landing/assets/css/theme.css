@@ -423,7 +423,7 @@ body {
   filter: brightness(1.12)
 }
 
-/* ---------- Animasi scroll mengerucut ---------- */
+/* ---------- Animasi garis sisi saat scroll ---------- */
 .cone {
   position: fixed;
   inset: 0;
@@ -438,7 +438,7 @@ body {
 }
 
 .cone .cl {
-  stroke-dasharray: 3 5
+  stroke-dasharray: 3 4
 }
 
 .cone.dn .cl {
@@ -447,19 +447,6 @@ body {
 
 .cone.up .cl {
   animation: coneOut .45s linear infinite
-}
-
-.cone .cr {
-  transform-box: fill-box;
-  transform-origin: center
-}
-
-.cone.dn .cr {
-  animation: ringIn .9s linear infinite
-}
-
-.cone.up .cr {
-  animation: ringOut .9s linear infinite
 }
 
 @keyframes coneIn {
@@ -474,33 +461,13 @@ body {
   }
 }
 
-@keyframes ringIn {
-  from {
-    transform: scale(1);
-    opacity: .8
-  }
-
-  to {
-    transform: scale(.1);
-    opacity: 0
-  }
-}
-
-@keyframes ringOut {
-  from {
-    transform: scale(.1);
-    opacity: 0
-  }
-
-  to {
-    transform: scale(1);
-    opacity: .8
-  }
+.scroll-dragging {
+  scroll-behavior: auto !important
 }
 
 .rider {
   position: fixed;
-  left: 10px;
+  right: 10px;
   top: 0;
   width: 40px;
   height: 100vh;
@@ -515,22 +482,45 @@ body {
   width: 1.5px;
   height: var(--ry, 60px);
   background: #7DB8FF;
-  opacity: .6;
-  transition: height .35s ease-out
+  opacity: .6
 }
 
-.rider svg {
+.rider-handle {
   position: absolute;
   left: 0;
   top: calc(var(--ry, 60px) - 20px);
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  pointer-events: auto;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent
+}
+
+.rider-handle:active {
+  cursor: grabbing
+}
+
+.rider-handle:focus-visible {
+  outline: 2px solid #7DB8FF;
+  outline-offset: 2px;
+  border-radius: 50%
+}
+
+.rider-handle svg {
   transform: rotate(var(--rot, 90deg));
-  transition: top .35s ease-out, transform .3s
+  transition: transform .3s
 }
 
 /* ---------- Tombol musik ---------- */
 .music {
   position: fixed;
-  right: 16px;
+  right: 64px;
   bottom: 16px;
   z-index: 60;
   display: flex;
@@ -597,8 +587,7 @@ body {
   }
 
   .dangle,
-  .bat,
-  .rider {
+  .bat {
     display: none
   }
 

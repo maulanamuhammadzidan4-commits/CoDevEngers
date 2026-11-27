@@ -1,4 +1,4 @@
-/* Efek interaksi: scroll reveal, tilt kartu, animasi scroll mengerucut, musik, intro.
+/* Efek interaksi: scroll reveal, tilt kartu, garis komik saat scroll, musik, intro.
    Lokasi: frontend/pages/landing/assets/js/effects.js. Tanpa library; semua menghormati "kurangi gerakan". */
 (function () {
   'use strict';
@@ -36,23 +36,75 @@
     });
   }
 
-  /* ---------- Animasi scroll: garis mengerucut + laba-laba menuruni benang ---------- */
+  /* ---------- Animasi scroll: garis sisi + laba-laba menuruni benang ---------- */
   function initScrollCone() {
-    if (reduce) return;
     const cone = document.getElementById('cone'), rider = document.getElementById('rider');
-    if (!cone || !rider) return;
+    const handle = rider && rider.querySelector('.rider-handle');
+    if (!cone || !rider || !handle) return;
     let last = window.scrollY, timer = null, ticking = false;
+    let drag = null;
+    const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const trackRange = () => Math.max(1, window.innerHeight - handle.offsetHeight);
+    const syncHandle = () => {
+      const max = maxScroll();
+      const progress = max ? window.scrollY / max : 0;
+      const y = handle.offsetHeight / 2 + progress * Math.max(0, window.innerHeight - handle.offsetHeight);
+      rider.style.setProperty('--ry', y + 'px');
+      handle.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
+    };
+    const scrollTo = (top) => window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
     const update = () => {
       ticking = false;
       const y = window.scrollY, dy = y - last; last = y;
+      syncHandle();
       if (Math.abs(dy) < 1) return;
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      cone.classList.add('on'); cone.classList.toggle('dn', dy > 0); cone.classList.toggle('up', dy < 0);
-      rider.style.setProperty('--ry', 50 + (y / max) * (window.innerHeight - 150) + 'px');
-      rider.style.setProperty('--rot', dy > 0 ? '90deg' : '-90deg');
-      clearTimeout(timer); timer = setTimeout(() => cone.classList.remove('on'), 280);
+      if (!reduce) {
+        cone.classList.add('on'); cone.classList.toggle('dn', dy > 0); cone.classList.toggle('up', dy < 0);
+        rider.style.setProperty('--rot', dy > 0 ? '90deg' : '-90deg');
+        clearTimeout(timer); timer = setTimeout(() => cone.classList.remove('on'), 280);
+      }
     };
     window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    window.addEventListener('resize', syncHandle, { passive: true });
+    syncHandle();
+
+    handle.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || drag) return;
+      drag = { id: e.pointerId, startY: e.clientY, startScroll: window.scrollY, moved: false };
+      document.documentElement.classList.add('scroll-dragging');
+      handle.setPointerCapture(e.pointerId);
+      window.scrollTo({ top: window.scrollY, behavior: 'auto' });
+    });
+    handle.addEventListener('pointermove', (e) => {
+      if (!drag || drag.id !== e.pointerId) return;
+      const delta = e.clientY - drag.startY;
+      if (Math.abs(delta) > 3 && !drag.moved) {
+        drag.moved = true;
+      }
+      if (drag.moved) window.scrollTo({ top: drag.startScroll + (delta * maxScroll()) / trackRange(), behavior: 'auto' });
+    });
+    const endDrag = (e, cancelled) => {
+      if (!drag || drag.id !== e.pointerId) return;
+      const moved = drag.moved;
+      drag = null;
+      document.documentElement.classList.remove('scroll-dragging');
+      if (handle.hasPointerCapture(e.pointerId)) handle.releasePointerCapture(e.pointerId);
+      if (!moved && !cancelled) scrollTo(0);
+    };
+    handle.addEventListener('pointerup', (e) => endDrag(e, false));
+    handle.addEventListener('pointercancel', (e) => endDrag(e, true));
+    handle.addEventListener('keydown', (e) => {
+      let target;
+      if (e.key === 'Home' || e.key === 'Enter' || e.key === ' ') target = 0;
+      else if (e.key === 'End') target = maxScroll();
+      else if (e.key === 'ArrowUp') target = window.scrollY - 40;
+      else if (e.key === 'ArrowDown') target = window.scrollY + 40;
+      else if (e.key === 'PageUp') target = window.scrollY - window.innerHeight * 0.9;
+      else if (e.key === 'PageDown') target = window.scrollY + window.innerHeight * 0.9;
+      else return;
+      e.preventDefault();
+      scrollTo(Math.max(0, Math.min(maxScroll(), target)));
+    });
   }
 
   /* ---------- Backsound: file audio (config.MUSIC_URL) ----------

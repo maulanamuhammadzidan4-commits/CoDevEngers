@@ -117,15 +117,19 @@
   }
 
   function overlays() {
-    let lines = '';
-    for (let k = 0; k < 16; k++) {
-      const a = (k * 2 * Math.PI) / 16;
-      lines += `<line class="cl" x1="${f1(50 + 90 * Math.cos(a))}" y1="${f1(50 + 90 * Math.sin(a))}" x2="${f1(50 + 6 * Math.cos(a))}" y2="${f1(50 + 6 * Math.sin(a))}"/>`;
-    }
-    return `<div id="cone" class="cone" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
-      <g stroke="#4DA3FF" stroke-width="0.25" fill="none" opacity="0.7">${lines}</g>
-      <g fill="none" stroke="#FF5A5F" stroke-width="0.3"><circle class="cr" cx="50" cy="50" r="40"/><circle class="cr" style="animation-delay:-0.3s" cx="50" cy="50" r="40"/><circle class="cr" style="animation-delay:-0.6s" cx="50" cy="50" r="40"/></g></svg></div>
-      <div id="rider" class="rider" aria-hidden="true"><div class="th"></div><svg width="40" height="40" viewBox="-20 -20 40 40"><use href="#spider" transform="scale(.6)"/></svg></div>
+    const streaks = [
+      [2, 12, 2, 0, '#4DA3FF'], [2, 29, 2, 13, '#4DA3FF'], [4, 46, 4, 30, '#FF5A5F'],
+      [2, 61, 2, 49, '#4DA3FF'], [2, 77, 2, 60, '#4DA3FF'], [5, 95, 5, 75, '#FF5A5F'],
+      [2, 99, 2, 87, '#4DA3FF'], [98, 17, 98, 1, '#4DA3FF'], [95, 35, 95, 19, '#FF5A5F'],
+      [98, 49, 98, 33, '#4DA3FF'], [98, 73, 98, 59, '#4DA3FF'], [96, 82, 96, 66, '#FF5A5F'],
+      [98, 93, 98, 78, '#4DA3FF'], [98, 100, 98, 89, '#4DA3FF']
+    ];
+    const lines = streaks.map(([x1, y1, x2, y2, color]) =>
+      `<line class="cl" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${color}"/>`
+    ).join('');
+    return `<div id="cone" class="cone" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
+      <g fill="none" stroke-width="0.5" stroke-linecap="round" opacity="0.7">${lines}</g></svg></div>
+      <div id="rider" class="rider"><div class="th" aria-hidden="true"></div><button type="button" class="rider-handle" role="slider" aria-label="Posisi halaman, tarik untuk menggulir atau tekan untuk kembali ke atas" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><svg aria-hidden="true" width="40" height="40" viewBox="-20 -20 40 40"><use href="#spider" transform="scale(.6)"/></svg></button></div>
       <button type="button" id="music-btn" class="music" aria-pressed="false" aria-label="Putar atau hentikan musik latar">
         <span class="eqs" aria-hidden="true"><i class="eq"></i><i class="eq" style="animation-delay:-.3s"></i><i class="eq" style="animation-delay:-.6s"></i></span>
         <svg class="ico-off" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7DB8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg>
