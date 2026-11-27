@@ -1,23 +1,7 @@
-/* CoDevEnger – Teachers' Day Surprise
-   Lokasi: frontend/pages/landing/assets/js/teachers-day.js
-
-   MODE A  (semua halaman selain teachers-day.html)
-   ─ Tampilkan pop-up kotak misterius setiap 30 detik.
-   ─ Pop-up TIDAK hilang sampai X ditekan.
-   ─ Klik area dalam kotak → pindah ke teachers-day.html.
-
-   MODE B  (teachers-day.html)
-   ─ Tampilkan pop-up penawaran langsung saat halaman dibuka.
-   ─ Tombol KLAIM SEKARANG! → mulai video BSOD.
-*/
+/* Independent Teacher's Day celebration simulation. */
 
 (function () {
   'use strict';
-
-  /* ─────────────────────────────────────────────
-     Deteksi halaman
-  ───────────────────────────────────────────── */
-  const isTeachersDay = document.body.dataset.page === 'teachers-day';
 
   /* ─────────────────────────────────────────────
      Konstanta
@@ -31,7 +15,7 @@
   function hide(el) { if (!el) return; el.classList.remove('td-visible'); el.classList.add('td-hidden'); }
 
   /* ══════════════════════════════════════════════
-     MODE A – Pop-up 1 (kotak misterius), semua halaman
+     Pop-up 1 – kotak misterius, repeated until clicked
   ═══════════════════════════════════════════════ */
   function initModeA() {
     // Buat dan sisipkan pop-up 1 ke dalam body
@@ -73,13 +57,13 @@
       });
     }
 
-    // Klik area dalam kotak → pindah ke teachers-day.html
+    // The feature now runs on one standalone page instead of navigating away.
     const box1 = popup1.querySelector('.td-box-1');
     if (box1) {
       box1.addEventListener('click', function () {
         clearTimer();
-        // Pindah ke halaman teachers-day
-        window.location.href = document.body.dataset.tdPopupTarget || 'teachers-day.html';
+        hide(popup1);
+        show(document.getElementById('td-popup-2'));
       });
     }
 
@@ -88,8 +72,7 @@
   }
 
   /* ══════════════════════════════════════════════
-     MODE B – teachers-day.html
-     Pop-up 2 muncul langsung; video BSOD dipicu tombol KLAIM
+     Giveaway, simulated terminal, memory video, and final message
   ═══════════════════════════════════════════════ */
   function initModeB() {
     const popup2       = document.getElementById('td-popup-2');
@@ -103,6 +86,8 @@
     const memoryVideo  = document.getElementById('td-memory-video');
     const memoryError  = document.getElementById('td-memory-error');
     const finalMessage = document.getElementById('td-final-message');
+    const exitButton = document.getElementById('td-exit-simulation');
+    const popup2Close = document.getElementById('td-popup2-close');
     const TERMINAL_CHARACTER_DELAY_MS = 18;
     const TERMINAL_LINE_DELAY_MS = 140;
     const terminalText = [
@@ -128,11 +113,7 @@
     let typingTimer = null;
     let typedCharacters = 0;
 
-    // Tampilkan pop-up 2 segera
-    if (popup2) show(popup2);
-
-    // Pasang listener ke SEMUA .td-btn-claim di halaman
-    // (menghindari bug duplicate ID – tombol di popup dan di halaman utama)
+    // Both giveaway buttons start the same user-initiated simulation.
     document.querySelectorAll('.td-btn-claim').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -145,8 +126,7 @@
       if (!videoOverlay || !bsodVideo || sequenceState !== 'giveaway') return;
       sequenceState = 'bsod';
       show(videoOverlay);
-      videoOverlay.classList.add('td-cursor-hidden');
-      document.body.style.cursor = 'none';
+      show(exitButton);
 
       bsodVideo.currentTime = 0;
       const p = bsodVideo.play();
@@ -154,7 +134,6 @@
         p.catch(function (err) {
           console.warn('[TeachersDay] Video gagal diputar:', err.message);
           videoOverlay.classList.add('td-show-error');
-          restoreCursor();
         });
       }
     }
@@ -164,6 +143,7 @@
       terminalStarted = true;
       sequenceState = 'terminal';
       show(terminal);
+      show(exitButton);
       typeNextCharacter();
     }
 
@@ -193,6 +173,7 @@
       }
       hide(terminal);
       show(memoryOverlay);
+      show(exitButton);
 
       if (memoryVideo.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
         showMemoryVideoError();
@@ -213,6 +194,7 @@
       sequenceState = 'final-message';
       hide(memoryOverlay);
       show(finalMessage);
+      show(exitButton);
     }
 
     function showMemoryVideoError() {
@@ -220,7 +202,7 @@
         ? memoryVideo.currentSrc
         : 'assets/videos/teacher-memories.mp4';
       console.warn('[TeachersDay] Video kenangan tidak dapat dimuat:', src,
-        '\nLetakkan: frontend/pages/landing/assets/videos/teacher-memories.mp4');
+        '\nLetakkan: teacher\'s-day/assets/videos/teacher-memories.mp4');
       if (memoryError) show(memoryError);
     }
 
@@ -229,13 +211,7 @@
       bsodVideo.pause();
       bsodVideo.currentTime = 0;
       hide(videoOverlay);
-      videoOverlay.classList.remove('td-cursor-hidden', 'td-show-error');
-      restoreCursor();
-    }
-
-    function restoreCursor() {
-      document.body.style.cursor = '';
-      if (videoOverlay) videoOverlay.classList.remove('td-cursor-hidden');
+      if (videoOverlay) videoOverlay.classList.remove('td-show-error');
     }
 
     if (bsodVideo) {
@@ -249,10 +225,9 @@
       bsodVideo.addEventListener('error', function () {
         const src = bsodVideo.currentSrc || '(tidak diketahui)';
         console.warn('[TeachersDay] File video tidak ditemukan:', src,
-          '\nLetakkan: frontend/pages/landing/assets/videos/bsod-prank.mp4');
+          '\nLetakkan: teacher\'s-day/assets/videos/bsod-prank.mp4');
         if (videoOverlay && !videoOverlay.classList.contains('td-hidden')) {
           videoOverlay.classList.add('td-show-error');
-          restoreCursor();
         }
       });
     }
@@ -265,12 +240,45 @@
       memoryVideo.addEventListener('ended', showFinalMessage);
       memoryVideo.addEventListener('error', showMemoryVideoError);
     }
+
+    function exitSimulation() {
+      [bsodVideo, memoryVideo].forEach(function (video) {
+        if (!video) return;
+        video.pause();
+        video.currentTime = 0;
+      });
+      if (typingTimer !== null) {
+        window.clearTimeout(typingTimer);
+        typingTimer = null;
+      }
+      [videoOverlay, terminal, memoryOverlay, finalMessage].forEach(hide);
+      if (videoOverlay) videoOverlay.classList.remove('td-show-error');
+      hide(memoryError);
+      hide(terminalAction);
+      if (terminalOutput) terminalOutput.textContent = '';
+      terminalStarted = false;
+      typedCharacters = 0;
+      sequenceState = 'giveaway';
+      hide(exitButton);
+    }
+
+    if (exitButton) exitButton.addEventListener('click', exitSimulation);
+    if (popup2Close) {
+      popup2Close.addEventListener('click', function () {
+        hide(popup2);
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      if (sequenceState !== 'giveaway') {
+        exitSimulation();
+      } else {
+        hide(popup2);
+      }
+    });
   }
 
-  /* ══════════════════════════════════════════════
-     Pembuatan elemen Pop-up 1 secara dinamis
-     (agar tidak perlu menyisipkan HTML ke setiap halaman)
-  ═══════════════════════════════════════════════ */
+  /* Create the first popup so its markup stays self-contained. */
   function createPopup1() {
     const overlay = document.createElement('div');
     overlay.id = 'td-popup-1';
@@ -292,11 +300,8 @@
      Entry point
   ───────────────────────────────────────────── */
   function init() {
-    if (isTeachersDay) {
-      initModeB();
-    } else {
-      initModeA();
-    }
+    initModeA();
+    initModeB();
   }
 
   if (document.readyState === 'loading') {
