@@ -38,6 +38,12 @@ Jika `config.js` tidak ada, halaman tetap jalan dengan data placeholder.
 3. Lengkapi fungsi di `assets/js/api.js` sesuai API contract Zidan (tabel/kolom publik). Fungsi sengaja belum diisi agar tidak mengarang kolom.
 4. Gambar: pakai URL https dari Supabase Storage (`photoUrl`, `coverUrl`). Jangan simpan foto di InfinityFree.
 
+### Android WebView
+
+The Android app packages these landing pages and generates `assets/js/config.js` during the build from `android/local.properties` (`USE_DUMMY_DATA`, `SUPABASE_URL`, and `SUPABASE_ANON_KEY`). `local.properties` is not committed. Use only a Supabase publishable key or legacy anon JWT; the Android build rejects privileged keys.
+
+The current `api.js` intentionally has no live table queries until the public data contract is approved, and the dashboard login remains a UI simulation. Supplying the client configuration alone does not enable live data or Supabase authentication.
+
 ## Deploy (InfinityFree)
 Upload ISI folder `frontend/pages/landing/` ke `htdocs/` (index.html harus di root htdocs). Jangan upload `config.js` yang berisi secret; anon key boleh, service_role tidak pernah.
 
