@@ -62,7 +62,7 @@
     const btn = document.getElementById('music-btn'), label = document.getElementById('music-label');
     if (!btn) return;
     const cfg = window.APP_CONFIG || {};
-    const SRC = cfg.MUSIC_URL || '../../assets/audio/ini-abadi.mp3';
+    const SRC = cfg.MUSIC_URL || 'assets/audio/ini-abadi.mp3';
     const VOL = 0.35, K_ON = 'cde_music_on', K_MUTED = 'cde_music_muted', K_T = 'cde_music_t';
     const store = {
       get: (k) => { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
