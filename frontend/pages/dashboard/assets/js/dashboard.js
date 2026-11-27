@@ -43,9 +43,12 @@
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || seed(); } catch (e) { return seed(); } };
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* tidak tersimpan */ } };
   let S = load();
-  const role = () => { try { return localStorage.getItem('cde_role') === 'admin' ? 'admin' : 'siswa'; } catch (e) { return 'siswa'; } };
+  let profile = null;
+  const role = () => profile ? profile.role : '';
   const isAdmin = () => role() === 'admin';
-  const ME = () => (isAdmin() ? 'Admin Kelas' : '[Nama Siswa]');
+  const isStudent = () => role() === 'student';
+  const roleLabel = () => ({ admin: 'Admin', student: 'Siswa', walkel: 'Wali Kelas', guest: 'Tamu' }[role()] || 'Anggota');
+  const ME = () => profile && profile.full_name ? profile.full_name : 'Pengguna';
   const F = { from: '', st: '', task: 'semua', q: '' };
   const nextId = (a) => a.reduce((m, x) => Math.max(m, x.id), 0) + 1;
   const hit = (...t) => !F.q || t.join(' ').toLowerCase().includes(F.q.toLowerCase());
@@ -147,7 +150,7 @@
     }
     // Hanya atribut aktif yang diperbarui, sehingga highlight menu bisa bertransisi
     document.querySelectorAll('#menu [data-nav]').forEach((a) => { if (a.dataset.nav === k) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-    $('#uname').textContent = ME(); $('#urole').textContent = isAdmin() ? 'Admin' : 'Siswa'; $('#avatar').textContent = isAdmin() ? 'A' : 'S';
+    $('#uname').textContent = ME(); $('#urole').textContent = roleLabel(); $('#avatar').textContent = ME().trim().charAt(0).toUpperCase() || 'U';
     document.title = 'CoDevEnger — ' + (MENU.find((m) => m[0] === k) || [])[1];
     icons();
   }
@@ -198,7 +201,13 @@
     'menu-open': () => setMenu(true),
     'menu-close': () => setMenu(false),
     profile: () => setProfile(!$('#pmenu').classList.contains('is-open')),
-    role: (d) => { try { localStorage.setItem('cde_role', d.v); } catch (e) { /* abaikan */ } setProfile(false); render(); toast('Peran simulasi: ' + d.v); },
+    logout: async () => {
+      setProfile(false);
+      if (!window.cdeSupabase) { toast('Logout tidak dapat dijalankan.'); return; }
+      const { error } = await window.cdeSupabase.auth.signOut();
+      if (error) { toast('Logout gagal. Coba lagi.'); return; }
+      window.location.href = 'login.html';
+    },
     bell: () => { setProfile(false); toast('Notifikasi akan tersedia setelah backend tersambung.'); },
     'modal-close': closeModal,
     'modal-bg': (d, e) => { if (e.target.id === 'modal') closeModal(); },
@@ -252,6 +261,56 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); setMenu(false); if ($('#pmenu').classList.contains('is-open')) { setProfile(false); $('#pbtn').focus(); } } });
   $('#q').addEventListener('input', (e) => { F.q = e.target.value; render(); });
   window.addEventListener('hashchange', () => { F.q = ''; $('#q').value = ''; render(); window.scrollTo(0, 0); $('#view').focus({ preventScroll: true }); });
-  document.addEventListener('DOMContentLoaded', render);
-  if (document.readyState !== 'loading') render();
+
+  async function initializeAuth() {
+    if (!window.cdeSupabase) {
+      document.body.innerHTML = '<main class="mx-auto max-w-xl p-8"><h1 class="text-xl font-bold">Autentikasi belum tersedia</h1><p class="mt-2">Coba muat ulang halaman.</p></main>';
+      return;
+    }
+
+    const { data } = await window.cdeSupabase.auth.getSession();
+    if (!data.session) {
+      window.location.replace('login.html');
+      return;
+    }
+
+    const { data: currentProfile, error } = await window.cdeSupabase
+      .from('profiles')
+      .select('id,username,full_name,role,must_change_password')
+      .eq('id', data.session.user.id)
+      .maybeSingle();
+
+    if (error || !currentProfile) {
+      document.body.classList.remove('auth-checking');
+      document.body.innerHTML = '<main class="mx-auto max-w-xl p-8"><h1 class="text-xl font-bold">Profil tidak ditemukan</h1><p class="mt-2 text-mute">Hubungi administrator untuk memeriksa akun Anda.</p></main>';
+      return;
+    }
+
+    if (currentProfile.must_change_password) {
+      window.location.replace('change-password.html');
+      return;
+    }
+
+    if (!['admin', 'student', 'walkel', 'guest'].includes(currentProfile.role)) {
+      document.body.classList.remove('auth-checking');
+      document.body.innerHTML = '<main class="mx-auto max-w-xl p-8"><h1 class="text-xl font-bold">Peran tidak dikenali</h1><p class="mt-2 text-mute">Hubungi administrator untuk memeriksa akun Anda.</p></main>';
+      return;
+    }
+
+    if (currentProfile.role === 'guest') {
+      await window.cdeSupabase.auth.signOut();
+      window.location.replace('login.html');
+      return;
+    }
+
+    profile = currentProfile;
+    document.body.classList.remove('auth-checking');
+    render();
+
+    window.cdeSupabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_OUT') window.location.replace('login.html');
+    });
+  }
+
+  initializeAuth();
 })();

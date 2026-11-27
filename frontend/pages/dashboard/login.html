@@ -18,15 +18,27 @@
     </div>
     <section class="rounded-3xl border border-line bg-panel p-6 sm:p-8">
       <h1 class="text-2xl font-bold">Masuk Anggota</h1>
-      <p class="mt-2 text-mute">Pilih peran untuk melihat dashboard.</p>
-      <p class="mt-3 rounded-lg border border-line px-3 py-2 text-sm text-mute">Ini simulasi tampilan. Autentikasi asli akan disambungkan oleh tim backend.</p>
-      <div class="mt-6 grid gap-3">
-        <button data-role="siswa" class="rounded-xl bg-brand px-5 py-3.5 text-left font-semibold text-white">Masuk sebagai Siswa</button>
-        <button data-role="admin" class="rounded-xl border-[1.5px] border-sky px-5 py-3.5 text-left font-semibold text-sky">Masuk sebagai Admin</button>
+      <p class="mt-2 text-mute">Gunakan username akun CoDevEnger.</p>
+      <form id="login-form" class="mt-6 grid gap-4" novalidate>
+        <label class="text-sm text-mute" for="username">Username
+          <input id="username" name="username" class="inp mt-1" autocomplete="username" autocapitalize="none" spellcheck="false" required placeholder="contoh: nama.siswa">
+        </label>
+        <label class="text-sm text-mute" for="password">Password
+          <span class="mt-1 flex gap-2">
+            <input id="password" name="password" type="password" class="inp" autocomplete="current-password" required>
+            <button id="toggle-password" type="button" class="bg2 shrink-0 !px-3" aria-label="Tampilkan password" aria-pressed="false"><i data-lucide="eye"></i></button>
+          </span>
+        </label>
+        <p id="login-message" class="min-h-5 text-sm text-err" role="alert" aria-live="polite"></p>
+        <button id="login-submit" type="submit" class="bp w-full">Masuk</button>
         <a href="../landing/index.html" class="px-1 pt-2 text-sm text-mute underline">Kembali ke mode pengunjung</a>
-      </div>
+      </form>
     </section>
   </main>
-  <script>document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{try{localStorage.setItem('cde_role',b.dataset.role)}catch(e){}location.href='dashboard.html'})</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/auth-login.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script>if (window.lucide) window.lucide.createIcons();</script>
 </body>
 </html>
