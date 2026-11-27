@@ -11,7 +11,15 @@
       b.setAttribute('title', dark ? 'Mode gelap aktif' : 'Mode terang aktif');
     });
   }
+  // Transisi halus hanya saat pengguna mengganti tema (kelas dipasang sementara, tidak aktif saat load)
+  var animT;
+  function animate() {
+    root.classList.add('theme-anim');
+    clearTimeout(animT);
+    animT = setTimeout(function () { root.classList.remove('theme-anim'); }, 450);
+  }
   function set(t) {
+    if (root.getAttribute('data-theme') !== t) animate();
     root.setAttribute('data-theme', t);
     try { localStorage.setItem(K, t); } catch (e) { /* mode privat: tema tetap berubah, hanya tidak tersimpan */ }
     label();
